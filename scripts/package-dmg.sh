@@ -76,8 +76,12 @@ https://support.apple.com/en-us/102445
 PREVIEW
 fi
 
-hdiutil makehybrid -hfs -hfs-volume-name Sela -o "$staging_path/Sela-hfs.dmg" "$payload"
-hdiutil convert "$staging_path/Sela-hfs.dmg" -format UDZO -o "$staging_path/Sela.dmg"
+hdiutil create \
+    -srcfolder "$payload" \
+    -volname "Sela" \
+    -fs HFS+ \
+    -format UDZO \
+    -ov "$staging_path/Sela.dmg"
 hdiutil verify "$staging_path/Sela.dmg"
 if $release_mode; then
     codesign --force --sign "$signing_identity" --timestamp "$staging_path/Sela.dmg"
