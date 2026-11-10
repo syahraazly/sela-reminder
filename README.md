@@ -1,88 +1,179 @@
+
 # Sela
 
 **A gentle reminder to sit up straight and stay hydrated.**
 
-Sela is a lightweight, native macOS menu bar app that helps you remember to check your posture or drink water during the day. It runs quietly in the background and shows a small reminder near the top of your screen when it's time.
+Sela is a lightweight, native macOS menu bar app designed to help you build better daily habits through simple posture and hydration reminders.
+
+It runs quietly in the background and displays compact, island-style reminders near the top of your screen.
 
 Built with **Swift** and **AppKit**.
 
 ## Features
 
-- **Posture and water reminders** — Choose to be reminded to sit up straight or drink water.
-- **Flexible intervals** — Use a 15, 30, 45, or 60-minute preset, or set a custom interval from 1 to 180 minutes.
-- **Island-style reminders** — See reminders in a compact overlay near the top of your screen, including on Macs without a notch.
-- **Simple controls** — Start, pause, resume, acknowledge, or snooze a reminder for five minutes.
-- **Menu bar access** — Keep the app running without leaving a window open.
-- **Optional sound** — Turn reminder sounds on or off; your preferences are saved locally.
+- **Posture Reminders** — Get reminded to sit up straight throughout the day.
+- **Hydration Reminders** — Stay mindful of your daily water intake.
+- **Customizable Intervals** — Choose from preset intervals or set your own.
+- **Island-Style Notifications** — Receive subtle reminders without disrupting your workflow.
+- **Menu Bar Integration** — Easily access settings and control reminders.
+- **Snooze & Pause** — Pause reminders or snooze them for five minutes.
+- **Optional Sound** — Enable or disable reminder sounds.
 
-> Sela is a timer-based reminder app. It does not detect your posture or use your camera. Only one reminder type is active at a time.
+> **Note:** Sela uses time-based reminders. It does not track your actual posture, access your camera, or monitor your water consumption.
 
 ## Requirements
 
 - macOS 14 (Sonoma) or later
-- For building from source: Git and Swift 6+ (via Xcode or Xcode Command Line Tools)
+- Apple Silicon or Intel Mac
+- Xcode or Swift toolchain (only required when building from source)
 
 ## Installation
 
-### Download the app
+### Download Sela
 
-Check the [Releases page](https://github.com/syahraazly/posture-reminder/releases) for a downloadable `Sela.dmg`.
+1. Go to the [Releases](https://github.com/syahraazly/posture-reminder/releases) page.
+2. Download the latest `Sela-*-preview.dmg` file.
+3. Double-click the downloaded DMG to open it.
+4. Drag **Sela.app** into the **Applications** folder.
+5. Open **Sela** from Applications.
 
-Once a DMG is available:
+> **Important:** Preview builds are not notarized by Apple. macOS may display a security warning when you open Sela for the first time.
 
-1. Download and open `Sela.dmg`.
-2. Drag **Sela.app** into **Applications**.
-3. Open **Sela** from Applications.
+### First Launch: "Sela" Not Opened
 
-**Note:** Preview builds are ad-hoc signed and are not notarized by Apple. macOS may show a security warning. Only open a build if you trust its source; consult [Apple's guidance](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac) if needed.
+If macOS displays the message:
 
-**No DMG on the Releases page yet?** You can build the app locally using the steps below.
+**"Apple could not verify Sela is free of malware that may harm your Mac or compromise your privacy."**
 
-### Build from source
+This warning may appear because preview builds are ad-hoc signed and have not been notarized by Apple.
+
+It does not necessarily mean the application is corrupted or malicious.
+
+If you trust the build downloaded from this repository, follow these steps.
+
+**Step 1 — Open Sela**
+
+Open `Sela.app` from your Applications folder.
+
+If the **"Sela" Not Opened** warning appears, click **Done** instead of **Move to Trash**.
+<img width="510" height="538" alt="image" src="https://github.com/user-attachments/assets/19d9c2c8-48ec-43e4-8a98-71ff50c38ebe" />
+
+**Step 2 — Open Privacy & Security**
+
+1. Open **System Settings**.
+2. Navigate to **Privacy & Security**.
+3. Scroll down to the **Security** section.
+4. Find the message indicating that Sela was blocked.
+5. Click **Open Anyway**.
+<img width="1002" height="232" alt="image" src="https://github.com/user-attachments/assets/5949a918-1aa3-4b35-9505-4348075f7566" />
+<img width="526" height="704" alt="image" src="https://github.com/user-attachments/assets/3cd41ea5-3b08-4428-99c4-612ba38b8d4b" />
+
+**Step 3 — Confirm and Launch**
+
+1. Authenticate with your Mac password or Touch ID if prompted.
+2. Click **Open** to confirm.
+3. Sela should now launch normally.
+
+You generally only need to complete this process once for the same app version.
+
+If the **Open Anyway** option does not appear, try opening Sela again and return to Privacy & Security.
+
+> **Security Notice:** Only override macOS security warnings for applications you trust. Preview releases have not undergone Apple's notarization process.
+
+For more information, refer to [Apple's official guide](https://support.apple.com/en-us/102445).
+
+## How to Use
+
+**1. Choose a Reminder**
+
+Open Sela and select your preferred reminder:
+
+- **Duduk Tegak** — Posture reminder
+- **Minum Air Putih** — Hydration reminder
+
+**2. Set Your Interval**
+
+Choose a preset reminder interval or configure a custom duration.
+
+**3. Start Your Reminder**
+
+Click **Mulai Pengingat** to activate the timer.
+
+Sela will run quietly in the background while you work.
+
+**4. Manage Notifications**
+
+When a reminder appears, you can:
+
+- Acknowledge the reminder.
+- Snooze it for five minutes.
+- Pause or resume your reminder from the app.
+
+**5. Access from the Menu Bar**
+
+Use the Sela icon in your macOS menu bar to reopen settings or quit the application.
+
+> Closing the settings window does not quit Sela. Reminders continue while the app is running and your Mac is awake.
+
+## Build from Source
+
+### Clone the Repository
 
 ```bash
 git clone https://github.com/syahraazly/posture-reminder.git
 cd posture-reminder
+```
+
+### Build the Application
+
+```bash
 ./build.sh --no-dmg
+```
+
+The compiled application will be available at:
+
+```text
+dist/Sela.app
+```
+
+Launch it using:
+
+```bash
 open dist/Sela.app
 ```
 
-If Swift isn't installed, first install Xcode or run `xcode-select --install` to install the Command Line Tools.
+### Generate a DMG
 
-The built app will be located at `dist/Sela.app`. You can also double-click `Jalankan Sela.command` from Finder to build and launch it.
-
-## How to use
-
-1. Open **Sela** and choose **Duduk tegak** (sit up straight) or **Minum air putih** (drink water).
-2. Select a reminder interval or enter your own.
-3. Click **Mulai pengingat** to start the timer.
-4. When a reminder appears, acknowledge it to begin the next interval or snooze it for five minutes.
-5. Use the menu bar icon to reopen settings or quit Sela.
-
-Closing the settings window does not quit the app. Reminders run while Sela is open and your Mac is awake.
-
-## For developers
-
-### Build a distributable DMG
-
-From the repository root, run:
+To create a distributable preview DMG:
 
 ```bash
-./build.sh
+zsh scripts/package-dmg.sh --preview
 ```
 
-This creates:
+The generated files will appear in the `dist/` directory:
 
 ```text
 dist/
 ├── Sela.app
-├── Sela.dmg
-└── Sela.dmg.sha256
+├── Sela-0.1.0-universal-preview.dmg
+└── Sela-0.1.0-universal-preview.dmg.sha256
 ```
 
-On macOS, you can also double-click `Buat DMG.command` in Finder. The `dist/` directory is ignored by Git; distribute the DMG through GitHub Releases rather than committing it to the repository.
+File names may vary depending on the application version and supported architectures.
 
-### Run tests
+### Verify Code Signing
+
+You can verify the application's code signature by running:
+
+```bash
+codesign --verify --deep --strict --verbose=2 dist/Sela.app
+```
+
+A valid code signature does not mean the preview build has been notarized by Apple.
+
+## Testing
+
+Run the project's test script:
 
 ```bash
 zsh scripts/test.sh
@@ -94,12 +185,22 @@ For UI smoke tests:
 zsh scripts/test.sh --ui
 ```
 
-### Publishing a preview release
+## Distribution
 
-You can attach `dist/Sela.dmg` to a new [GitHub Release](https://github.com/syahraazly/posture-reminder/releases/new), or use **Actions → Publish DMG preview → Run workflow** to build and publish a preview release.
+Preview builds are intended for testing and evaluation.
 
-For architecture, build details, and distribution notes, see the [`docs/`](docs/) directory.
+They are currently:
+
+- Ad-hoc signed.
+- Not notarized by Apple.
+- Distributed through GitHub Releases.
+
+For a public release without the usual unverified-developer warning, the app should be signed with an Apple **Developer ID Application** certificate and notarized.
+
+## License
+
+See the repository's license file, if provided, for usage and distribution terms.
 
 ---
 
-**Made for small, mindful breaks throughout your day.**
+**Sela — Small reminders, better habits.**
