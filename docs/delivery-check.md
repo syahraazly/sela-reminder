@@ -1,8 +1,8 @@
 # Pemeriksaan Tegak
 
-Status: PASS untuk build, engine, kontrol AppKit, dan render di luar layar pada 10 November 2026. Tidak menyatakan bahwa penempatan pada layar fisik sudah diuji.
+Status: PASS untuk build, Model, ViewModel, kontrol AppKit, dan render di luar layar pada 10 November 2026. Tidak menyatakan bahwa penempatan pada layar fisik sudah diuji.
 
-Validasi: `zsh scripts/test.sh --ui` lulus 8 tes engine dan 57 pemeriksaan UI. `zsh scripts/build.sh` menghasilkan aplikasi lokal. Signature diperiksa dengan `codesign --verify --deep --strict`; Info.plist diperiksa dengan `plutil -lint`.
+Validasi setelah refactor MVVM: 8 tes engine, 10 tes ViewModel, dan 57 pemeriksaan UI lulus. Build universal menghasilkan aplikasi lokal dan DMG preview. Signature diperiksa dengan `codesign --verify --deep --strict`; Info.plist diperiksa dengan `plutil -lint`.
 
 Bukti: [rekaman interaksi](previews/smoke-test.txt), [kontras](contrast.txt), [alasan desain](design-notes.md), [tema terang](previews/settings-light.png), [tema gelap](previews/settings-dark.png), [validasi input](previews/settings-invalid-input.png), [island kecil](previews/island-compact.png), [pengingat](previews/island-reminder.png).
 
@@ -79,3 +79,7 @@ Bukti: [rekaman interaksi](previews/smoke-test.txt), [kontras](contrast.txt), [a
 ## Batas pemeriksaan
 
 Lingkungan ini melaporkan nol layar fisik. Smoke test memakai window AppKit di luar layar dan geometri virtual; menu bar sistem tidak dibuat pada mode ini. Karena itu pembukaan melalui Finder, menu bar fisik, deteksi notch pada hardware, Spaces, fullscreen, Reduce Motion aktual, dan keluaran suara belum diverifikasi langsung. Aplikasi bukan detektor postur, tidak memakai kamera, dan belum dinotarisasi untuk distribusi publik.
+
+Build universal dan paket DMG preview kemudian ditambahkan tanpa mengubah UI. Hasil pemeriksaan packaging, termasuk batas verifikasi rilis publik, tercatat dalam [distribution-check.md](distribution-check.md).
+
+Pemeriksaan refactor MVVM, batas dependensi, dan kesamaan render tercatat dalam [mvvm-check.md](mvvm-check.md). Semua aturan visual di atas tetap memakai desain yang sama.

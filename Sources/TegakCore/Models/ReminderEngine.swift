@@ -92,8 +92,4 @@ public final class ReminderEngine {
         onChange?()
     }
 
-    public var formattedRemaining: String {
-        let seconds = Int(ceil(remaining))
-        return String(format: "%02d:%02d", seconds / 60, seconds % 60)
-    }
 }

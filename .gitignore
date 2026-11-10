@@ -2,3 +2,8 @@
 dist/
 .DS_Store
 .swiftpm/
+.env
+.env.*
+*.p12
+*.p8
+*.key

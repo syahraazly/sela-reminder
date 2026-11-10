@@ -28,7 +28,7 @@ enum Palette {
 }
 
 @MainActor
-final class SurfaceView: NSView {
+class SurfaceView: NSView {
     var fill: NSColor
     var radius: CGFloat
     override var isFlipped: Bool { true }
@@ -57,7 +57,7 @@ final class ActionButton: NSButton {
     enum Style { case primary, secondary, selected, islandPrimary, islandSecondary, bare }
     var style: Style = .secondary { didSet { needsDisplay = true } }
 
-    init(_ title: String, style: Style = .secondary, target: AnyObject?, action: Selector) {
+    init(_ title: String, style: Style = .secondary, target: AnyObject? = nil, action: Selector? = nil) {
         super.init(frame: .zero)
         self.title = title
         self.style = style
@@ -152,7 +152,7 @@ final class IslandPanel: NSPanel {
 }
 
 @MainActor
-final class IslandSurface: NSView {
+class IslandSurface: NSView {
     override var isFlipped: Bool { true }
     override func draw(_ dirtyRect: NSRect) {
         let w = bounds.width
