@@ -31,6 +31,9 @@ public final class ReminderViewModel {
     public var nextReminderDate: Date? { engine.deadline }
     public var isPreviewing: Bool { engine.isPreviewing }
     public var soundEnabled: Bool { preferences.soundEnabled }
+    public var reminderKind: ReminderKind { preferences.reminderKind }
+
+    private var content: ReminderContent { ReminderContent(kind: reminderKind) }
 
     private var formattedRemaining: String {
         let seconds = Int(ceil(engine.remaining))
@@ -42,23 +45,23 @@ public final class ReminderViewModel {
         case .idle: return "Mulai pengingat"
         case .running: return "Jeda pengingat"
         case .paused: return "Lanjutkan pengingat"
-        case .reminding: return "Sudah tegak, lanjutkan"
+        case .reminding: return "\(content.acknowledgement), lanjutkan"
         }
     }
 
     private var statusDescription: String {
         switch engine.state {
         case .idle: return "Belum dimulai. Mulai saat kamu siap."
-        case .running: return "Aktif · Setiap \(engine.intervalMinutes) menit"
+        case .running: return "Aktif · \(content.name) · Setiap \(engine.intervalMinutes) menit"
         case .paused: return "Dijeda · Lanjutkan saat kamu kembali"
-        case .reminding: return "Saatnya menyesuaikan posisi duduk"
+        case .reminding: return content.pendingDescription
         }
     }
 
     public var settings: SettingsViewState {
         SettingsViewState(
             countdown: formattedRemaining,
-            caption: engine.state == .reminding ? "Yuk, duduk lebih tegak." : "Pengingat berikutnya",
+            caption: engine.state == .reminding ? content.heading : "Pengingat berikutnya",
             status: statusDescription,
             primaryTitle: primaryTitle,
             selectedInterval: engine.intervalMinutes,
@@ -66,13 +69,14 @@ public final class ReminderViewModel {
             isEditingInterval: isEditingInterval,
             hint: inputError ?? "1–180 menit. Perubahan mengulang hitungan timer.",
             hasInputError: inputError != nil,
-            soundEnabled: preferences.soundEnabled
+            soundEnabled: preferences.soundEnabled,
+            selectedReminderKind: reminderKind
         )
     }
 
     public var island: IslandViewState {
         let compactTitle: String
-        if engine.isShowingReminder { compactTitle = "Postur" }
+        if engine.isShowingReminder { compactTitle = content.compactTitle }
         else {
             switch engine.state {
             case .running: compactTitle = formattedRemaining
@@ -83,19 +87,19 @@ public final class ReminderViewModel {
         if engine.isShowingReminder {
             return IslandViewState(
                 isExpanded: true, compactTitle: compactTitle,
-                heading: "Yuk, duduk lebih tegak.",
+                heading: content.heading,
                 subtitle: engine.isPreviewing && engine.state != .reminding
                     ? "Ini preview. Jadwal pengingatmu tetap berjalan."
-                    : "Rilekskan bahu dan sesuaikan posisi dudukmu.",
-                primaryTitle: engine.state == .reminding ? "Sudah tegak" : "Tutup preview",
+                    : content.detail,
+                primaryTitle: engine.state == .reminding ? content.acknowledgement : "Tutup preview",
                 secondaryTitle: engine.state == .reminding ? "Tunda 5 menit" : "Pengaturan"
             )
         }
         return IslandViewState(
             isExpanded: userExpandedIsland, compactTitle: compactTitle,
-            heading: engine.state == .running ? "Masih ada \(formattedRemaining)." : "Ambil posisi nyaman.",
+            heading: engine.state == .running ? "Masih ada \(formattedRemaining)." : content.idleHeading,
             subtitle: engine.state == .running
-                ? "Pengingat duduk setiap \(engine.intervalMinutes) menit."
+                ? "Pengingat \(content.name.lowercased()) setiap \(engine.intervalMinutes) menit."
                 : "\(engine.state == .paused ? "Timer dijeda" : "Timer belum dimulai"). Lanjut saat kamu siap.",
             primaryTitle: primaryTitle, secondaryTitle: "Pengaturan"
         )
@@ -103,8 +107,9 @@ public final class ReminderViewModel {
 
     public var menuBar: MenuBarViewState {
         MenuBarViewState(
-            status: engine.state == .running ? "Pengingat dalam \(formattedRemaining)" : statusDescription,
-            primaryTitle: primaryTitle, toolTip: "Tegak · \(statusDescription)"
+            status: engine.state == .running ? "\(content.name) dalam \(formattedRemaining)" : statusDescription,
+            primaryTitle: primaryTitle, toolTip: "Tegak · \(content.name) · \(statusDescription)",
+            symbolName: content.menuSymbol, accessibilityLabel: "Tegak · Pengingat \(content.name.lowercased())"
         )
     }
 
@@ -150,6 +155,11 @@ public final class ReminderViewModel {
 
     public func setSoundEnabled(_ enabled: Bool) {
         preferences.soundEnabled = enabled
+        publishChanges()
+    }
+
+    public func selectReminderKind(_ kind: ReminderKind) {
+        preferences.reminderKind = kind
         publishChanges()
     }
 

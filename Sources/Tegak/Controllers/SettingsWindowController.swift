@@ -44,6 +44,10 @@ final class SettingsWindowController: NSObject, NSTextFieldDelegate {
     }
 
     private func bindActions() {
+        for button in contentView.reminderKindButtons {
+            button.target = self
+            button.action = #selector(selectReminderKind(_:))
+        }
         for button in contentView.presetButtons {
             button.target = self
             button.action = #selector(selectPreset(_:))
@@ -61,6 +65,12 @@ final class SettingsWindowController: NSObject, NSTextFieldDelegate {
     @objc private func selectPreset(_ sender: ActionButton) {
         window.makeFirstResponder(sender)
         viewModel.selectPreset(sender.tag)
+    }
+
+    @objc private func selectReminderKind(_ sender: ActionButton) {
+        guard let identifier = sender.identifier?.rawValue, let kind = ReminderKind(rawValue: identifier) else { return }
+        window.makeFirstResponder(sender)
+        viewModel.selectReminderKind(kind)
     }
 
     @objc private func applyCustomInterval(_ sender: NSTextField) { viewModel.commitInterval(sender.stringValue) }

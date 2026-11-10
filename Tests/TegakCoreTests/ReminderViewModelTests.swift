@@ -161,15 +161,113 @@ struct ReminderViewModelTests {
         viewModel.commitInterval("invalid")
         #expect(snapshots.last?.hasInputError == true)
     }
+
+    @Test func restoresWaterChoiceWithoutStartingTimer() {
+        let preferences = MemoryReminderPreferences(intervalMinutes: 45, reminderKind: .water)
+        let viewModel = ReminderViewModel(preferences: preferences)
+        #expect(viewModel.reminderKind == .water)
+        #expect(viewModel.settings.selectedReminderKind == .water)
+        #expect(viewModel.settings.countdown == "45:00")
+        #expect(viewModel.island.heading == "Siapkan air minummu.")
+        #expect(viewModel.menuBar.symbolName == "drop")
+        #expect(viewModel.state == .idle)
+    }
+
+    @Test func switchingKindPreservesRunningAndPausedTimers() {
+        var now = Date(timeIntervalSince1970: 1_000)
+        let preferences = MemoryReminderPreferences()
+        let viewModel = ReminderViewModel(preferences: preferences, now: { now })
+        viewModel.toggleTimer()
+        now = now.addingTimeInterval(43)
+        let deadline = viewModel.nextReminderDate
+        viewModel.selectReminderKind(.water)
+        #expect(preferences.reminderKind == .water)
+        #expect(viewModel.nextReminderDate == deadline)
+        #expect(viewModel.remaining == 1_757)
+        #expect(viewModel.settings.status.contains("Minum air putih"))
+        #expect(viewModel.menuBar.status.contains("Minum air putih"))
+        viewModel.toggleTimer()
+        viewModel.selectReminderKind(.posture)
+        #expect(viewModel.state == .paused)
+        #expect(viewModel.remaining == 1_757)
+        #expect(viewModel.intervalMinutes == 30)
+    }
+
+    @Test func waterPreviewUsesSelectedContentWithoutChangingDeadline() {
+        let viewModel = ReminderViewModel(preferences: MemoryReminderPreferences(reminderKind: .water))
+        viewModel.toggleTimer()
+        let deadline = viewModel.nextReminderDate
+        viewModel.preview()
+        #expect(viewModel.island.heading == "Yuk, minum air putih.")
+        #expect(viewModel.island.compactTitle == "Minum")
+        #expect(viewModel.island.primaryTitle == "Tutup preview")
+        viewModel.performIslandPrimaryAction()
+        #expect(viewModel.nextReminderDate == deadline)
+        #expect(viewModel.state == .running)
+        #expect(!viewModel.isPreviewing)
+    }
+
+    @Test func waterReminderAcknowledgementStartsNextInterval() {
+        var now = Date(timeIntervalSince1970: 1_000)
+        let preferences = MemoryReminderPreferences(intervalMinutes: 1, reminderKind: .water)
+        let viewModel = ReminderViewModel(preferences: preferences, now: { now })
+        viewModel.toggleTimer()
+        now = now.addingTimeInterval(60)
+        viewModel.tick()
+        #expect(viewModel.settings.caption == "Yuk, minum air putih.")
+        #expect(viewModel.settings.primaryTitle == "Sudah minum, lanjutkan")
+        #expect(viewModel.island.primaryTitle == "Sudah minum")
+        #expect(viewModel.island.subtitle == "Ambil jeda sebentar untuk minum air putih.")
+        viewModel.performIslandPrimaryAction()
+        #expect(viewModel.state == .running)
+        #expect(viewModel.remaining == 60)
+        #expect(viewModel.reminderKind == .water)
+    }
+
+    @Test func changingKindDuringReminderDoesNotReplaySound() {
+        var now = Date(timeIntervalSince1970: 1_000)
+        let preferences = MemoryReminderPreferences(intervalMinutes: 1, soundEnabled: true)
+        let viewModel = ReminderViewModel(preferences: preferences, now: { now })
+        var sounds = 0
+        viewModel.onPlayReminderSound = { sounds += 1 }
+        viewModel.toggleTimer()
+        now = now.addingTimeInterval(60)
+        viewModel.tick()
+        viewModel.selectReminderKind(.water)
+        #expect(viewModel.state == .reminding)
+        #expect(viewModel.island.primaryTitle == "Sudah minum")
+        #expect(sounds == 1)
+        viewModel.closeIsland()
+        #expect(viewModel.remaining == 300)
+    }
+
+    @Test func userDefaultsRestoresKindAndHandlesLegacyOrUnknownValues() throws {
+        let suite = "local.dummy.tegak.preferences-test.\(UUID().uuidString)"
+        let defaults = try #require(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        defaults.set(45, forKey: "intervalMinutes")
+        defaults.set(true, forKey: "soundEnabled")
+        let preferences = UserDefaultsReminderPreferences(defaults: defaults)
+        #expect(preferences.reminderKind == .posture)
+        preferences.reminderKind = .water
+        let restored = UserDefaultsReminderPreferences(defaults: defaults)
+        #expect(restored.reminderKind == .water)
+        #expect(restored.intervalMinutes == 45)
+        #expect(restored.soundEnabled)
+        defaults.set("unknown-kind", forKey: "reminderKind")
+        #expect(restored.reminderKind == .posture)
+    }
 }
 
 @MainActor
 private final class MemoryReminderPreferences: ReminderPreferencesStore {
     var intervalMinutes: Int
     var soundEnabled: Bool
+    var reminderKind: ReminderKind
 
-    init(intervalMinutes: Int = 30, soundEnabled: Bool = false) {
+    init(intervalMinutes: Int = 30, soundEnabled: Bool = false, reminderKind: ReminderKind = .posture) {
         self.intervalMinutes = intervalMinutes
         self.soundEnabled = soundEnabled
+        self.reminderKind = reminderKind
     }
 }

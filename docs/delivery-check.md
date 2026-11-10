@@ -2,7 +2,7 @@
 
 Status: PASS untuk build, Model, ViewModel, kontrol AppKit, dan render di luar layar pada 10 November 2026. Tidak menyatakan bahwa penempatan pada layar fisik sudah diuji.
 
-Validasi setelah refactor MVVM: 8 tes engine, 10 tes ViewModel, dan 57 pemeriksaan UI lulus. Build universal menghasilkan aplikasi lokal dan DMG preview. Signature diperiksa dengan `codesign --verify --deep --strict`; Info.plist diperiksa dengan `plutil -lint`.
+Validasi setelah penambahan pilihan jenis: 8 tes engine, 16 tes ViewModel, dan 71 pemeriksaan UI lulus. Build universal menghasilkan aplikasi lokal dan DMG preview. Signature diperiksa dengan `codesign --verify --deep --strict`; Info.plist diperiksa dengan `plutil -lint`.
 
 Bukti: [rekaman interaksi](previews/smoke-test.txt), [kontras](contrast.txt), [alasan desain](design-notes.md), [tema terang](previews/settings-light.png), [tema gelap](previews/settings-dark.png), [validasi input](previews/settings-invalid-input.png), [island kecil](previews/island-compact.png), [pengingat](previews/island-reminder.png).
 
@@ -17,13 +17,13 @@ Bukti: [rekaman interaksi](previews/smoke-test.txt), [kontras](contrast.txt), [a
 | R-23, aset | PASS: tidak membuat logo, foto, atau ilustrasi; teks nama dan SF Symbol posisi duduk mendukung utilitas yang diminta. Preview merupakan render kode aplikasi sendiri. |
 | R-24, navigasi | PASS: menu hanya berisi tindakan aplikasi dengan selector nyata; tidak ada tautan produk atau halaman kosong. |
 | R-25, kontras teks | PASS: 13 pasangan teks custom melebihi 4,5:1 dan 3 pasangan batas kontrol custom melebihi 3:1, tercatat di contrast.txt. Kontrol native memakai rendering sistem. |
-| R-26, interaksi | PASS: preset, input custom, mulai, jeda, lanjut, checkbox suara, kedua sisi island, preview, pengaturan, pengakuan pengingat, dan tunda dijalankan melalui kontrol asli. |
+| R-26, interaksi | PASS: pilihan duduk/minum, preset, input custom, mulai, jeda, lanjut, checkbox suara, kedua sisi island, preview, pengaturan, pengakuan pengingat, dan tunda dijalankan melalui kontrol asli. |
 | R-27, state | PASS: state awal, berjalan, jeda, pengingat, preview, dan input invalid memiliki label nyata; render awal, jeda, dan invalid disimpan. Tidak ada proses pemuatan asinkron atau sumber data jaringan. |
 | R-28, FAQ | PASS: tidak ada FAQ. |
-| R-32, keyboard | PASS: Tab antar preset, dari editor menit ke checkbox lalu aksi utama diuji; Enter memicu aksi utama; Escape menutup preview/pengaturan dan menunda pengingat. Focus ring native dipertahankan. |
+| R-32, keyboard | PASS: Tab antar jenis, dari pilihan jenis ke preset, antar preset, dan dari editor menit ke checkbox lalu aksi utama diuji; Enter memicu aksi utama; Escape menutup preview/pengaturan dan menunda pengingat. Focus ring native dipertahankan. |
 | R-33, perubahan source | PASS: implementasi ditulis di file Swift dengan patch source; tidak ada injeksi runtime atau script pengubah source. |
 | R-34, tema | PASS: kedua appearance dirender dan diperiksa; tombol serta permukaan custom menggambar ulang saat appearance berubah. |
-| R-35, eksekusi | PASS: build debug/release serta 57 pemeriksaan kontrol AppKit di luar layar selesai. Batas pemeriksaan desktop fisik tercatat di bawah. |
+| R-35, eksekusi | PASS: build debug/release serta 71 pemeriksaan kontrol AppKit di luar layar selesai. Batas pemeriksaan desktop fisik tercatat di bawah. |
 | R-36, klaim | PASS: tidak ada klaim keamanan, kepatuhan, performa, diagnosis, atau hasil kesehatan. |
 | R-37, arah | PASS: brief pengguna meminta utilitas island MacBook; Design Read serta ENERGY 1 / RHYTHM 1 / MOTION 2 dinyatakan sebelum UI dibuat. |
 | R-38, keaslian | PASS: timer dan state berasal dari engine; preview berlabel sebagai preview; tidak ada konten promosi atau data aktivitas buatan. |
@@ -33,7 +33,7 @@ Bukti: [rekaman interaksi](previews/smoke-test.txt), [kontras](contrast.txt), [a
 | Item | Status dan bukti |
 | --- | --- |
 | R-01, gradient | PASS: tidak memakai gradient atau glow. |
-| R-04, ikon | PASS: satu SF Symbol `figure.seated.side` menandai utilitas posisi duduk; relevansi tercatat di design-notes.md. |
+| R-04, ikon | PASS: SF Symbol `figure.seated.side` untuk duduk dan `drop` untuk minum mengikuti jenis aktif; relevansi tercatat di design-notes.md. |
 | R-06, tipografi | PASS: system font mengikuti utilitas native macOS; digit timer tetap lebar untuk menghindari pergeseran antar detik. |
 | R-07, latar | PASS: permukaan solid tanpa grid atau pola dekoratif. |
 | R-08, panah | PASS: tidak ada panah dekoratif pada tombol. |
@@ -70,7 +70,7 @@ Bukti: [rekaman interaksi](previews/smoke-test.txt), [kontras](contrast.txt), [a
 | R-11, radius | PASS: panel timer 16 poin, tombol 8 poin, kontur bawah island sampai 24 poin sesuai fungsi. |
 | R-15, CTA | PASS: label konkret seperti Mulai pengingat, Coba pengingat, dan Tunda 5 menit. |
 | R-16, bahasa | PASS: copy menerangkan tindakan aktual, tanpa klaim marketing generik. |
-| R-20, identitas | PASS: area kamera yang dikosongkan, countdown dua sisi, dan pesan postur membentuk utilitas khusus notch. |
+| R-20, identitas | PASS: area kamera yang dikosongkan, countdown dua sisi, dan pesan sesuai jenis pengingat membentuk utilitas khusus notch. |
 | R-21, tema | PASS: pengaturan mengikuti pilihan tema macOS; island hitam punya alasan menyatu dengan notch fisik. |
 | R-29, palet | PASS: netral dengan satu keluarga aksen oranye; tidak ada rangkaian warna dekoratif. |
 | R-30, referensi | PASS: pola island mengikuti permintaan pengguna; tidak menyalin aplikasi pihak ketiga. |
@@ -83,3 +83,5 @@ Lingkungan ini melaporkan nol layar fisik. Smoke test memakai window AppKit di l
 Build universal dan paket DMG preview kemudian ditambahkan tanpa mengubah UI. Hasil pemeriksaan packaging, termasuk batas verifikasi rilis publik, tercatat dalam [distribution-check.md](distribution-check.md).
 
 Pemeriksaan refactor MVVM, batas dependensi, dan kesamaan render tercatat dalam [mvvm-check.md](mvvm-check.md). Semua aturan visual di atas tetap memakai desain yang sama.
+
+Pilihan duduk/minum memakai palet dan pola interaksi yang sama. Layout pengaturan diringkas agar tetap 520 × 650; render terbaru kedua jenis dan tema tersedia di `previews/`. Pemeriksaan fitur tercatat di [reminder-kind-check.md](reminder-kind-check.md).

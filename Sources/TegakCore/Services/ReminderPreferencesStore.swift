@@ -4,6 +4,7 @@ import Foundation
 public protocol ReminderPreferencesStore: AnyObject {
     var intervalMinutes: Int { get set }
     var soundEnabled: Bool { get set }
+    var reminderKind: ReminderKind { get set }
 }
 
 @MainActor
@@ -22,5 +23,10 @@ public final class UserDefaultsReminderPreferences: ReminderPreferencesStore {
     public var soundEnabled: Bool {
         get { defaults.object(forKey: "soundEnabled") as? Bool ?? false }
         set { defaults.set(newValue, forKey: "soundEnabled") }
+    }
+
+    public var reminderKind: ReminderKind {
+        get { ReminderKind(rawValue: defaults.string(forKey: "reminderKind") ?? "") ?? .posture }
+        set { defaults.set(newValue.rawValue, forKey: "reminderKind") }
     }
 }

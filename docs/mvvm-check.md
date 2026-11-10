@@ -1,5 +1,7 @@
 # Pemeriksaan refactor MVVM
 
+Catatan ini merekam refactor MVVM sebelum fitur pilihan duduk/minum ditambahkan. Perbandingan delapan PNG di bawah adalah hasil pada tahap refactor tersebut. Untuk UI dan hasil tes terbaru, lihat [reminder-kind-check.md](reminder-kind-check.md).
+
 - PASS: `AppDelegate` berkurang dari 473 menjadi 32 baris dan hanya menangani launch, reopen, serta termination.
 - PASS: Model dan ViewModel berada dalam target `TegakCore` tanpa import AppKit. Deadline tetap milik `ReminderEngine`; format countdown dan teks UI pindah ke `ReminderViewModel`.
 - PASS: View menerima `SettingsViewState` / `IslandViewState` dan tidak mengakses Model atau UserDefaults. Controller meneruskan event native ke ViewModel.

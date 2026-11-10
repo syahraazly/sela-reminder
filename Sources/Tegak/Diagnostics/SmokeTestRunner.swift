@@ -128,7 +128,12 @@ final class SmokeTestRunner {
             check(startButton.acceptsFirstResponder && previewButton.acceptsFirstResponder, "Action buttons accept keyboard focus")
             check(startButton.focusRingType == .exterior, "Action buttons keep visible focus rings")
             check(presetButtons.first?.nextKeyView === presetButtons[1], "Tab order follows preset order")
-            check(previewButton.nextKeyView === presetButtons.first, "Tab order wraps through controls")
+            check(previewButton.nextKeyView === settingsSurface.reminderKindButtons.first, "Tab order wraps through controls")
+            settingsWindow.makeFirstResponder(settingsSurface.reminderKindButtons[0])
+            settingsWindow.selectNextKeyView(nil)
+            check(settingsWindow.firstResponder === settingsSurface.reminderKindButtons[1], "Tab reaches second reminder kind")
+            settingsWindow.selectNextKeyView(nil)
+            check(settingsWindow.firstResponder === presetButtons[0], "Tab reaches interval presets after reminder kinds")
             settingsWindow.makeFirstResponder(presetButtons[0])
             settingsWindow.selectNextKeyView(nil)
             check(settingsWindow.firstResponder === presetButtons[1], "Tab moves focus to next preset")
@@ -162,6 +167,7 @@ final class SmokeTestRunner {
             settings.show()
             check(settings.presentationRequested, "Reopen requests settings")
             log.append(contentsOf: try verifyReminderControls(output: output))
+            log.append(contentsOf: try verifyWaterReminder(output: output))
             check(!log.contains(where: { $0.hasPrefix("FAIL") }), "All real reminder controls pass")
         } catch {
             failed = true
@@ -220,6 +226,44 @@ final class SmokeTestRunner {
         viewModel.tick()
         island.panel.cancelOperation(nil)
         check(viewModel.state == .running && viewModel.remaining == 300, "Escape snoozes real reminder")
+        return results
+    }
+
+    private func verifyWaterReminder(output: URL) throws -> [String] {
+        let viewModel = coordinator.viewModel
+        let settings = coordinator.settingsController
+        let island = coordinator.islandController
+        var results: [String] = []
+        func check(_ condition: Bool, _ message: String) {
+            results.append("\(condition ? "PASS" : "FAIL"): \(message)")
+        }
+        let deadline = viewModel.nextReminderDate
+        settings.contentView.reminderKindButtons[1].performClick(nil)
+        check(viewModel.reminderKind == .water, "Water selector changes active reminder kind")
+        check(preferences.string(forKey: "reminderKind") == "water", "Water reminder choice persists")
+        check(viewModel.nextReminderDate == deadline, "Changing reminder kind preserves timer deadline")
+        check(viewModel.menuBar.symbolName == "drop", "Water reminder selects a relevant menu bar symbol")
+        check(settings.contentView.reminderKindButtons[1].style == .selected, "Water selector shows selected state")
+        settings.window.appearance = NSAppearance(named: .aqua)
+        try snapshot(settings.contentView, to: output.appendingPathComponent("settings-water-light.png"))
+        settings.window.appearance = NSAppearance(named: .darkAqua)
+        try snapshot(settings.contentView, to: output.appendingPathComponent("settings-water-dark.png"))
+        settings.window.appearance = nil
+        settings.contentView.previewButton.performClick(nil)
+        check(viewModel.isPreviewing && viewModel.island.heading == "Yuk, minum air putih.", "Water preview uses selected message")
+        try snapshot(island.contentView, to: output.appendingPathComponent("island-water-preview.png"))
+        island.contentView.primaryButton.performClick(nil)
+        check(viewModel.nextReminderDate == deadline, "Closing water preview preserves deadline")
+        clock.advance(seconds: viewModel.remaining)
+        viewModel.tick()
+        check(viewModel.state == .reminding, "Elapsed timer opens real water reminder")
+        check(island.contentView.primaryButton.title == "Sudah minum", "Water reminder offers matching acknowledgement")
+        try snapshot(island.contentView, to: output.appendingPathComponent("island-water-reminder.png"))
+        island.contentView.primaryButton.performClick(nil)
+        check(viewModel.state == .running && viewModel.remaining == 60, "Water acknowledgement starts next interval")
+        settings.contentView.reminderKindButtons[0].performClick(nil)
+        check(viewModel.reminderKind == .posture, "Posture selector restores posture reminder")
+        check(preferences.string(forKey: "reminderKind") == "posture", "Posture reminder choice persists")
         return results
     }
 }

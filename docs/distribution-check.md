@@ -11,7 +11,7 @@ Paket yang dihasilkan: `dist/Tegak-0.1.0-universal-preview.dmg` dan file `.sha25
 - PASS: `shasum -a 256 -c Tegak-0.1.0-universal-preview.dmg.sha256` dari folder `dist/` memverifikasi checksum SHA-256.
 - PASS: DMG dikonversi kembali ke image mentah untuk pemeriksaan baca ulang; executable dan Info.plist ditemukan dengan byte identik terhadap bundle hasil build.
 - PASS: katalog HFS memuat nama Tegak.app dan Applications; target `/Applications`, petunjuk instalasi, dan teks VERSI PREVIEW ditemukan dalam image baca ulang.
-- PASS: salinan byte executable distribusi yang dijalankan di luar bundle lulus 57 pemeriksaan kontrol AppKit di luar layar pada host arm64. Lokasi di luar bundle digunakan karena peluncuran bundle melalui layanan desktop tidak tersedia di lingkungan ini.
+- PASS: salinan byte executable distribusi terbaru yang dijalankan di luar bundle lulus 71 pemeriksaan kontrol AppKit di luar layar pada host arm64, termasuk pilihan duduk/minum. Lokasi di luar bundle digunakan karena peluncuran bundle melalui layanan desktop tidak tersedia di lingkungan ini.
 - PASS: semua script shell lolos `zsh -n`.
 - PASS: `release.sh` menolak identitas signing yang belum diisi sebelum build atau upload notarization; `package-dmg.sh --release` juga menolak identitas yang belum diisi.
 - PASS: alur release menyimpan DMG yang menunggu notarization di folder staging. File final berlabel publik baru dipindahkan ke `dist/` setelah notarization, stapling, dan pemeriksaan Gatekeeper berhasil.

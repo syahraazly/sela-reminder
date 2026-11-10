@@ -41,6 +41,8 @@ PASS: Action buttons accept keyboard focus
 PASS: Action buttons keep visible focus rings
 PASS: Tab order follows preset order
 PASS: Tab order wraps through controls
+PASS: Tab reaches second reminder kind
+PASS: Tab reaches interval presets after reminder kinds
 PASS: Tab moves focus to next preset
 PASS: Tab reaches sound checkbox after interval input
 PASS: Tab reaches primary action after sound checkbox
@@ -55,4 +57,16 @@ PASS: Snooze button schedules five minutes
 PASS: Acknowledgement restarts chosen interval
 PASS: Settings acknowledges reminder
 PASS: Escape snoozes real reminder
+PASS: Water selector changes active reminder kind
+PASS: Water reminder choice persists
+PASS: Changing reminder kind preserves timer deadline
+PASS: Water reminder selects a relevant menu bar symbol
+PASS: Water selector shows selected state
+PASS: Water preview uses selected message
+PASS: Closing water preview preserves deadline
+PASS: Elapsed timer opens real water reminder
+PASS: Water reminder offers matching acknowledgement
+PASS: Water acknowledgement starts next interval
+PASS: Posture selector restores posture reminder
+PASS: Posture reminder choice persists
 PASS: All real reminder controls pass

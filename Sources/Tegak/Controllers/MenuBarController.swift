@@ -10,6 +10,7 @@ final class MenuBarController: NSObject {
     private let statusLabel = NSMenuItem(title: "Tegak · Belum dimulai", action: nil, keyEquivalent: "")
     private var toggleItem: NSMenuItem!
     private var statusItem: NSStatusItem?
+    private var symbolName: String?
 
     init(viewModel: ReminderViewModel, isOffscreen: Bool) {
         self.viewModel = viewModel
@@ -34,14 +35,18 @@ final class MenuBarController: NSObject {
         statusLabel.title = state.status
         toggleItem.title = state.primaryTitle
         statusItem?.button?.toolTip = state.toolTip
+        statusItem?.button?.setAccessibilityLabel(state.accessibilityLabel)
+        if symbolName != state.symbolName {
+            symbolName = state.symbolName
+            if let image = NSImage(systemSymbolName: state.symbolName, accessibilityDescription: state.accessibilityLabel) {
+                image.isTemplate = true
+                statusItem?.button?.image = image
+            } else { statusItem?.button?.title = "T" }
+        }
     }
 
     private func createStatusItem() {
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-        if let image = NSImage(systemSymbolName: "figure.seated.side", accessibilityDescription: "Tegak, pengingat duduk") {
-            image.isTemplate = true
-            item.button?.image = image
-        } else { item.button?.title = "T" }
         statusItem = item
     }
 

@@ -1,12 +1,19 @@
 # Tegak
 
-Dummy project aplikasi macOS untuk pengingat duduk tegak berbasis waktu. Island kecil berada di tengah atas layar, menyatu dengan area notch jika tersedia. Saat timer habis, island terbuka dengan pengingat dan tombol tindakan.
+Dummy project aplikasi macOS untuk pengingat **duduk tegak** atau **minum air putih** berbasis waktu. Island kecil berada di tengah atas layar, menyatu dengan area notch jika tersedia. Saat timer habis, island terbuka dengan pengingat yang dipilih dan tombol tindakan.
 
-## Instal dari DMG
+## Untuk pengguna lain
 
-Pengguna cukup mendapatkan file `.dmg`, membukanya, lalu drag **Tegak.app** ke shortcut **Applications**. Buka **Tegak** dari Applications, pilih interval, dan klik **Mulai pengingat**. Pengguna tidak perlu Swift, Xcode, atau Terminal.
+Memerlukan **macOS 14 atau lebih baru**. Pengguna tidak perlu clone repository, memasang Xcode, atau menjalankan Terminal.
 
-Paket yang sudah dibuat di project ini: `dist/Tegak-0.1.0-universal-preview.dmg`, untuk Apple Silicon dan Intel, minimum macOS 14. Paket ini masih preview dan belum dinotarisasi Apple, sehingga dapat ditahan Gatekeeper saat didownload di Mac lain. Lihat [panduan distribusi](docs/distribution.md) untuk menyiapkan rilis publik yang ditandatangani dan dinotarisasi.
+1. Download file **.dmg** Tegak yang dibagikan pengembang.
+2. Buka DMG, lalu drag **Tegak.app** ke shortcut **Applications**.
+3. Buka **Tegak** dari folder Applications.
+4. Pilih **Duduk tegak** atau **Minum air putih**, atur interval, lalu klik **Mulai pengingat**.
+
+Pengaturan dan pilihan keluar tersedia lewat ikon Tegak di menu bar. Menutup jendela pengaturan tetap membiarkan timer berjalan.
+
+**Untuk membagikan versi sekarang:** kirim file `dist/Tegak-0.1.0-universal-preview.dmg`. Paket universal ini berisi build Apple Silicon dan Intel, tetapi masih preview dan belum dinotarisasi Apple sehingga dapat ditahan Gatekeeper di Mac lain. Untuk rilis publik, ikuti [panduan distribusi](docs/distribution.md).
 
 ## Jalankan dari source
 
@@ -33,13 +40,14 @@ Script membuat aplikasi universal, image DMG terkompresi berisi aplikasi, shortc
 
 ## Pakai
 
+- Pada **Ingatkan untuk**, pilih **Duduk tegak** atau **Minum air putih**. Satu jenis aktif pada satu waktu; pilihan tersimpan otomatis. Mengganti jenis tidak mengulang sisa waktu timer.
 - Pilih 15, 30, 45, atau 60 menit; atau isi angka bulat 1–180 menit, lalu tekan Enter. Interval tersimpan otomatis. Mengubah interval mengulang hitungan timer.
 - Klik **Mulai pengingat**. **Jeda pengingat** dan **Lanjutkan pengingat** mempertahankan sisa waktu.
 - **Coba pengingat** membuka preview tanpa mengubah jadwal. Tutup dengan **Tutup preview** atau Escape.
-- Saat pengingat asli muncul, **Sudah tegak** memulai interval berikutnya. **Tunda 5 menit** atau Escape menunda lima menit.
+- Saat pengingat asli muncul, **Sudah tegak** atau **Sudah minum** memulai interval berikutnya, sesuai jenis yang dipilih. **Tunda 5 menit** atau Escape menunda lima menit.
 - Klik sisi kiri atau kanan island untuk membuka kontrol. Menu bar juga menyediakan **Buka island**, **Pengaturan**, dan **Keluar dari Tegak**.
 - Menutup jendela pengaturan tetap membiarkan aplikasi berjalan. Keluar lewat menu bar atau Command-Q.
-- Suara pengingat bersifat opsional dan awalnya mati. Interval dan pilihan suara dipertahankan saat aplikasi dibuka kembali; timer dimulai manual.
+- Suara pengingat bersifat opsional dan awalnya mati. Jenis pengingat, interval, dan pilihan suara dipertahankan saat aplikasi dibuka kembali; timer dimulai manual.
 
 Pengaturan mengikuti tampilan terang/gelap macOS. Island selalu hitam agar menyatu dengan notch. Tanpa notch, island tetap tampil di tengah atas layar. Setelah Mac bangun dari sleep, timer aktif dimulai ulang agar waktu tidur tidak dihitung sebagai waktu duduk.
 

@@ -50,7 +50,8 @@ cat > "$payload/Baca dulu.txt" <<'INSTALL'
 TEGAK
 
 1. Drag Tegak.app ke folder Applications di jendela ini.
-2. Buka Tegak dari Applications, lalu atur interval pengingat.
+2. Buka Tegak dari Applications, pilih Duduk tegak atau Minum air putih,
+   lalu atur interval pengingat.
 3. Klik Mulai pengingat.
 4. Eject disk Tegak setelah aplikasi disalin.
 

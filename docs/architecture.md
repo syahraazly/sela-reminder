@@ -8,9 +8,11 @@
 Sources/
 ├── TegakCore/
 │   ├── Models/
-│   │   └── ReminderEngine.swift
+│   │   ├── ReminderEngine.swift
+│   │   └── ReminderKind.swift
 │   ├── ViewModels/
 │   │   ├── ReminderViewModel.swift
+│   │   ├── ReminderContent.swift
 │   │   └── ReminderViewState.swift
 │   └── Services/
 │       └── ReminderPreferencesStore.swift
@@ -53,7 +55,7 @@ Satu instance ViewModel dipakai pengaturan, island, dan menu bar agar ketiganya 
 
 **Model:** `ReminderEngine` menyimpan deadline, sisa waktu saat jeda, serta state idle/running/paused/reminding. Ia menangani mulai, jeda, pengakuan pengingat, tunda, dan wake. Model tidak mengenal window, warna, atau teks tombol.
 
-**ViewModel:** `ReminderViewModel` memiliki Model dan menerima `ReminderPreferencesStore`. Ia menangani validasi menit, draft input yang sedang diedit, penyimpanan pilihan, aksi timer, ekspansi island, dan format countdown. Properti `settings`, `island`, dan `menuBar` mengeluarkan struct state dengan nilai immutable. ViewModel hanya memakai Foundation.
+**ViewModel:** `ReminderViewModel` memiliki Model dan menerima `ReminderPreferencesStore`. Ia menangani validasi menit, draft input yang sedang diedit, penyimpanan pilihan, aksi timer, ekspansi island, dan format countdown. `ReminderKind` menentukan satu jenis aktif; `ReminderContent` memasok teks serta simbol untuk tiap jenis. Mengganti jenis mempertahankan state dan deadline engine. Properti `settings`, `island`, dan `menuBar` mengeluarkan struct state dengan nilai immutable. ViewModel hanya memakai Foundation.
 
 **View:** `SettingsView` dan `IslandView` mengatur layout serta warna dan menerima state lewat `render`. View tidak membaca UserDefaults atau memanggil Model. `Components.swift` memuat komponen gambar, tombol, label, dan tipe window bersama.
 
