@@ -2,9 +2,34 @@
 
 Sela adalah aplikasi native macOS untuk mengingatkan **duduk tegak** atau **minum air putih**. Aplikasi berjalan dari menu bar dan menampilkan pengingat di area island saat waktunya tiba. Dibuat dengan Swift dan AppKit.
 
-## Download dan instalasi
+## Jalankan lokal
 
-Memerlukan **macOS 14 atau lebih baru**. Pengguna tidak perlu clone repository, memasang Xcode, atau menjalankan Terminal.
+Cara utama saat ini: clone repository, build menjadi aplikasi, lalu jalankan di Mac sendiri. Memerlukan **macOS 14 atau lebih baru**, Git, dan **Swift 6 atau lebih baru** dari Xcode atau Command Line Tools.
+
+Jika Command Line Tools belum terpasang, jalankan perintah berikut dan selesaikan dialog instalasinya:
+
+```sh
+xcode-select --install
+```
+
+Periksa `swift --version` dan pastikan versi 6 atau lebih baru. Setelah itu:
+
+```sh
+git clone https://github.com/syahraazly/posture-reminder.git
+cd posture-reminder
+zsh build.sh --no-dmg
+open dist/Sela.app
+```
+
+Perintah build menghasilkan `dist/Sela.app`. Setelah aplikasi terbuka, pilih **Duduk tegak** atau **Minum air putih**, atur interval, lalu klik **Mulai pengingat**. Source yang di-clone dibuild di Mac kamu menjadi aplikasi; tidak perlu membuat atau mendownload DMG untuk cara ini.
+
+Untuk membuka lagi, cukup buka `dist/Sela.app` lewat Finder. Kamu juga dapat menyalinnya ke Applications, atau klik dua kali **Jalankan Sela.command** untuk build dan membuka aplikasi dari folder project.
+
+Sela tetap berjalan di menu bar saat jendela pengaturan ditutup. Untuk mematikannya, klik ikon Sela di menu bar lalu pilih **Keluar dari Sela**.
+
+## Download DMG (opsional)
+
+DMG bisa dibuat, tetapi unduhan publik hanya tersedia setelah asset diunggah dan release dipublikasikan. Mem-push source atau workflow saja tidak menerbitkan DMG. Jika paketnya sudah tersedia, pengguna DMG tidak perlu clone repository atau memasang Xcode.
 
 1. Buka [halaman Releases](https://github.com/syahraazly/posture-reminder/releases), lalu download **Sela.dmg** di bagian **Assets**. Jika belum ada asset DMG, paket belum dipublikasikan. File Source code ZIP bukan installer aplikasi.
 2. Buka DMG, lalu drag **Sela.app** ke shortcut **Applications**.
@@ -31,11 +56,9 @@ Workflow otomatis juga tersedia: push perubahan termasuk `.github/workflows/publ
 
 DMG lokal belum otomatis menjadi unduhan publik. Folder `dist/` masuk `.gitignore`; binary dibagikan sebagai asset release. Untuk opsi Developer ID dan notarization, lihat [panduan distribusi](docs/distribution.md).
 
-## Build dari source
+## Membuat paket distribusi
 
-Untuk pengembang, diperlukan Xcode atau Command Line Tools dengan Swift 6. Dari folder project:
-
-Bisa juga melalui Terminal di folder project:
+Untuk membuat aplikasi sekaligus DMG universal, jalankan dari folder project:
 
 ```sh
 ./build.sh
@@ -47,14 +70,7 @@ Perintah ini membangun aplikasi universal Apple Silicon/Intel, menandatanganinya
 - `dist/Sela.dmg`
 - `dist/Sela.dmg.sha256`
 
-Untuk build aplikasi lokal tanpa membuat DMG:
-
-```sh
-./build.sh --no-dmg
-open dist/Sela.app
-```
-
-Bisa juga klik dua kali **Jalankan Sela.command** untuk menjalankan aplikasi lokal atau **Buat DMG.command** untuk membuat paket distribusi.
+Untuk pemakaian lokal, gunakan langkah di bagian **Jalankan lokal**. **Buat DMG.command** adalah shortcut untuk membuat paket distribusi.
 
 Jika versi lama bernama Tegak masih berjalan, pilih **Keluar dari Tegak** terlebih dahulu. Identitas penyimpanan aplikasi dipertahankan agar pilihan jenis, interval, dan suara tetap terbaca.
 
