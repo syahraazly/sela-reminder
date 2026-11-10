@@ -1,0 +1,58 @@
+INFO: Offscreen AppKit run. Physical display, menu bar, Spaces, and fullscreen placement require an interactive desktop check.
+PASS: First launch is idle
+PASS: Default interval is 30 minutes
+PASS: Preset 15 updates interval
+PASS: Preset 15 persists
+PASS: Preset 30 updates interval
+PASS: Preset 30 persists
+PASS: Preset 45 updates interval
+PASS: Preset 45 persists
+PASS: Preset 60 updates interval
+PASS: Preset 60 persists
+PASS: Invalid input shows useful error
+PASS: Invalid input preserves interval
+PASS: Reject invalid interval '0'
+PASS: Reject invalid interval '181'
+PASS: Reject invalid interval ''
+PASS: Reject invalid interval '1.5'
+PASS: Reject invalid interval '999999999999999999999'
+PASS: Custom interval applies
+PASS: Custom interval persists
+PASS: Start button starts timer
+PASS: Preview opens reminder
+PASS: Preview preserves scheduled deadline
+PASS: Island expands for preview
+PASS: Preview settings button requests settings
+PASS: Close preview preserves running timer
+PASS: Closing preview preserves deadline
+PASS: Pause button pauses timer
+PASS: Resume button resumes timer
+PASS: Resume preserves remaining seconds
+PASS: Sound checkbox enables and persists sound
+PASS: Sound checkbox disables sound
+PASS: Left island wing opens controls
+PASS: Island primary pauses running timer
+PASS: Right island wing opens controls
+PASS: Island primary resumes paused timer
+PASS: Island settings button requests settings
+PASS: Escape collapses island
+PASS: Escape closes preview
+PASS: Action buttons accept keyboard focus
+PASS: Action buttons keep visible focus rings
+PASS: Tab order follows preset order
+PASS: Tab order wraps through controls
+PASS: Tab moves focus to next preset
+PASS: Tab reaches sound checkbox after interval input
+PASS: Tab reaches primary action after sound checkbox
+PASS: Enter activates primary action
+PASS: Keyboard activation pauses timer
+PASS: Escape dismisses settings
+PASS: Closing settings leaves timer running
+PASS: Reopen requests settings
+PASS: Elapsed timer opens real reminder
+PASS: Real reminder exposes acknowledgement
+PASS: Snooze button schedules five minutes
+PASS: Acknowledgement restarts chosen interval
+PASS: Settings acknowledges reminder
+PASS: Escape snoozes real reminder
+PASS: All real reminder controls pass
