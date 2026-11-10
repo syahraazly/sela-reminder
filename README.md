@@ -1,132 +1,105 @@
 # Sela
 
-Sela adalah aplikasi native macOS untuk mengingatkan **duduk tegak** atau **minum air putih**. Aplikasi berjalan dari menu bar dan menampilkan pengingat di area island saat waktunya tiba. Dibuat dengan Swift dan AppKit.
+**A gentle reminder to sit up straight and stay hydrated.**
 
-## Jalankan lokal
+Sela is a lightweight, native macOS menu bar app that helps you remember to check your posture or drink water during the day. It runs quietly in the background and shows a small reminder near the top of your screen when it's time.
 
-Cara utama saat ini: clone repository, build menjadi aplikasi, lalu jalankan di Mac sendiri. Memerlukan **macOS 14 atau lebih baru**, Git, dan **Swift 6 atau lebih baru** dari Xcode atau Command Line Tools.
+Built with **Swift** and **AppKit**.
 
-Jika Command Line Tools belum terpasang, jalankan perintah berikut dan selesaikan dialog instalasinya:
+## Features
 
-```sh
-xcode-select --install
-```
+- **Posture and water reminders** — Choose to be reminded to sit up straight or drink water.
+- **Flexible intervals** — Use a 15, 30, 45, or 60-minute preset, or set a custom interval from 1 to 180 minutes.
+- **Island-style reminders** — See reminders in a compact overlay near the top of your screen, including on Macs without a notch.
+- **Simple controls** — Start, pause, resume, acknowledge, or snooze a reminder for five minutes.
+- **Menu bar access** — Keep the app running without leaving a window open.
+- **Optional sound** — Turn reminder sounds on or off; your preferences are saved locally.
 
-Periksa `swift --version` dan pastikan versi 6 atau lebih baru. Setelah itu:
+> Sela is a timer-based reminder app. It does not detect your posture or use your camera. Only one reminder type is active at a time.
 
-```sh
+## Requirements
+
+- macOS 14 (Sonoma) or later
+- For building from source: Git and Swift 6+ (via Xcode or Xcode Command Line Tools)
+
+## Installation
+
+### Download the app
+
+Check the [Releases page](https://github.com/syahraazly/posture-reminder/releases) for a downloadable `Sela.dmg`.
+
+Once a DMG is available:
+
+1. Download and open `Sela.dmg`.
+2. Drag **Sela.app** into **Applications**.
+3. Open **Sela** from Applications.
+
+**Note:** Preview builds are ad-hoc signed and are not notarized by Apple. macOS may show a security warning. Only open a build if you trust its source; consult [Apple's guidance](https://support.apple.com/guide/mac-help/open-a-mac-app-from-an-unidentified-developer-mh40616/mac) if needed.
+
+**No DMG on the Releases page yet?** You can build the app locally using the steps below.
+
+### Build from source
+
+```bash
 git clone https://github.com/syahraazly/posture-reminder.git
 cd posture-reminder
-zsh build.sh --no-dmg
+./build.sh --no-dmg
 open dist/Sela.app
 ```
 
-Perintah build menghasilkan `dist/Sela.app`. Setelah aplikasi terbuka, pilih **Duduk tegak** atau **Minum air putih**, atur interval, lalu klik **Mulai pengingat**. Source yang di-clone dibuild di Mac kamu menjadi aplikasi; tidak perlu membuat atau mendownload DMG untuk cara ini.
+If Swift isn't installed, first install Xcode or run `xcode-select --install` to install the Command Line Tools.
 
-Untuk membuka lagi, cukup buka `dist/Sela.app` lewat Finder. Kamu juga dapat menyalinnya ke Applications, atau klik dua kali **Jalankan Sela.command** untuk build dan membuka aplikasi dari folder project.
+The built app will be located at `dist/Sela.app`. You can also double-click `Jalankan Sela.command` from Finder to build and launch it.
 
-Sela tetap berjalan di menu bar saat jendela pengaturan ditutup. Untuk mematikannya, klik ikon Sela di menu bar lalu pilih **Keluar dari Sela**.
+## How to use
 
-## Download DMG (opsional)
+1. Open **Sela** and choose **Duduk tegak** (sit up straight) or **Minum air putih** (drink water).
+2. Select a reminder interval or enter your own.
+3. Click **Mulai pengingat** to start the timer.
+4. When a reminder appears, acknowledge it to begin the next interval or snooze it for five minutes.
+5. Use the menu bar icon to reopen settings or quit Sela.
 
-DMG bisa dibuat, tetapi unduhan publik hanya tersedia setelah asset diunggah dan release dipublikasikan. Mem-push source atau workflow saja tidak menerbitkan DMG. Jika paketnya sudah tersedia, pengguna DMG tidak perlu clone repository atau memasang Xcode.
+Closing the settings window does not quit the app. Reminders run while Sela is open and your Mac is awake.
 
-1. Buka [halaman Releases](https://github.com/syahraazly/posture-reminder/releases), lalu download **Sela.dmg** di bagian **Assets**. Jika belum ada asset DMG, paket belum dipublikasikan. File Source code ZIP bukan installer aplikasi.
-2. Buka DMG, lalu drag **Sela.app** ke shortcut **Applications**.
-3. Buka **Sela** dari folder Applications.
-4. Pilih **Duduk tegak** atau **Minum air putih**, atur interval, lalu klik **Mulai pengingat**.
+## For developers
 
-Pengaturan dan pilihan keluar tersedia lewat ikon Sela di menu bar. Menutup jendela pengaturan tetap membiarkan timer berjalan.
+### Build a distributable DMG
 
-### Pertama kali dibuka
+From the repository root, run:
 
-Paket preview ditandatangani ad hoc dan belum dinotarisasi Apple. Jika macOS menolak karena pengembang belum dapat diverifikasi dan kamu mempercayai sumber unduhannya:
-
-1. Coba buka Sela sekali.
-2. Buka **System Settings → Privacy & Security → Open Anyway** untuk Sela.
-3. Konfirmasikan **Open**.
-
-Ikuti [panduan Apple](https://support.apple.com/en-us/102445) sesuai pesan yang muncul. Paket ad hoc bisa dibagikan melalui Releases tanpa akun Apple Developer; signing Developer ID dan notarization tersedia sebagai opsi distribusi.
-
-## Publikasikan unduhan
-
-Cara langsung: jalankan `./build.sh`, buka [halaman membuat release](https://github.com/syahraazly/posture-reminder/releases/new), buat tag seperti `v0.1.0-preview`, lampirkan `dist/Sela.dmg` beserta `dist/Sela.dmg.sha256`, tandai sebagai pre-release, lalu klik **Publish release**. Setelah itu pengguna dapat download lewat halaman Releases. Repository harus public untuk unduhan tanpa akses khusus.
-
-Workflow otomatis juga tersedia: push perubahan termasuk `.github/workflows/publish-preview.yml` ke branch default, lalu buka **Actions → Publish DMG preview → Run workflow**, isi versi, dan jalankan. Workflow menguji source, membuat DMG universal, serta mengunggah dan mempublikasikannya sebagai pre-release. Workflow ini belum dijalankan dari sesi lokal ini.
-
-DMG lokal belum otomatis menjadi unduhan publik. Folder `dist/` masuk `.gitignore`; binary dibagikan sebagai asset release. Untuk opsi Developer ID dan notarization, lihat [panduan distribusi](docs/distribution.md).
-
-## Membuat paket distribusi
-
-Untuk membuat aplikasi sekaligus DMG universal, jalankan dari folder project:
-
-```sh
+```bash
 ./build.sh
 ```
 
-Perintah ini membangun aplikasi universal Apple Silicon/Intel, menandatanganinya ad hoc, lalu menghasilkan:
+This creates:
 
-- `dist/Sela.app`
-- `dist/Sela.dmg`
-- `dist/Sela.dmg.sha256`
-
-Untuk pemakaian lokal, gunakan langkah di bagian **Jalankan lokal**. **Buat DMG.command** adalah shortcut untuk membuat paket distribusi.
-
-Jika versi lama bernama Tegak masih berjalan, pilih **Keluar dari Tegak** terlebih dahulu. Identitas penyimpanan aplikasi dipertahankan agar pilihan jenis, interval, dan suara tetap terbaca.
-
-### Script packaging lanjutan
-
-Script packaging juga tersedia langsung:
-
-```sh
-zsh scripts/package-dmg.sh --preview
+```text
+dist/
+├── Sela.app
+├── Sela.dmg
+└── Sela.dmg.sha256
 ```
 
-Script ini menyimpan paket berversi seperti `dist/Sela-0.1.0-universal-preview.dmg`. `./build.sh` menyiapkan salinan bernama `Sela.dmg` agar nama file unduhan tetap sederhana. DMG berisi aplikasi, shortcut Applications, dan petunjuk instalasi.
+On macOS, you can also double-click `Buat DMG.command` in Finder. The `dist/` directory is ignored by Git; distribute the DMG through GitHub Releases rather than committing it to the repository.
 
-## Pakai
+### Run tests
 
-- Pada **Ingatkan untuk**, pilih **Duduk tegak** atau **Minum air putih**. Satu jenis aktif pada satu waktu; pilihan tersimpan otomatis. Mengganti jenis tidak mengulang sisa waktu timer.
-- Pilih 15, 30, 45, atau 60 menit; atau isi angka bulat 1–180 menit, lalu tekan Enter. Interval tersimpan otomatis. Mengubah interval mengulang hitungan timer.
-- Klik **Mulai pengingat**. **Jeda pengingat** dan **Lanjutkan pengingat** mempertahankan sisa waktu.
-- **Coba pengingat** menampilkan contoh pesan sesuai jenis yang dipilih, tanpa mengubah timer. Tutup dengan **Tutup contoh** atau Escape.
-- Saat pengingat asli muncul, **Sudah tegak** atau **Sudah minum** memulai interval berikutnya, sesuai jenis yang dipilih. **Tunda 5 menit** atau Escape menunda lima menit.
-- Klik sisi kiri atau kanan island untuk membuka kontrol. Menu bar juga menyediakan **Buka island**, **Pengaturan**, dan **Keluar dari Sela**.
-- Menutup jendela pengaturan tetap membiarkan aplikasi berjalan. Keluar lewat menu bar atau Command-Q.
-- Suara pengingat bersifat opsional dan awalnya mati. Jenis pengingat, interval, dan pilihan suara dipertahankan saat aplikasi dibuka kembali; timer dimulai manual.
-
-Pengaturan mengikuti tampilan terang/gelap macOS. Island selalu hitam agar menyatu dengan notch. Tanpa notch, island tetap tampil di tengah atas layar. Setelah Mac bangun dari sleep, timer aktif dimulai ulang agar waktu tidur tidak dihitung sebagai waktu duduk.
-
-Ini aplikasi pengingat, tanpa deteksi postur atau akses kamera. Pengingat hanya bekerja saat aplikasi berjalan dan Mac terjaga. Overlay menggunakan jendela AppKit; ini bukan modifikasi notch bawaan macOS. Di atas aplikasi fullscreen atau mode tampilan tertentu, perilaku overlay dapat bergantung pada macOS.
-
-## Pengembangan dan verifikasi
-
-```sh
+```bash
 zsh scripts/test.sh
 ```
 
-Tes engine memakai jam yang dikontrol untuk memeriksa deadline, jeda/lanjut, preview, tunda, dan wake. Tes ViewModel memeriksa validasi, draft input, sinkronisasi state, routing, dan permintaan suara tanpa AppKit. Smoke test mengaktifkan kontrol AppKit asli dengan `performClick`/target-action, memeriksa navigasi Tab dan tombol Enter, dan merender tampilan ke `docs/previews/`. Ini tidak memerlukan izin Screen Recording atau Accessibility.
+For UI smoke tests:
 
-Untuk menjalankan smoke test UI:
-
-```sh
+```bash
 zsh scripts/test.sh --ui
 ```
 
-Tanpa akses layar, smoke test menggunakan window AppKit di luar layar dengan geometri layar virtual 1512 × 982. Kontrol dan renderer tetap berasal dari kode aplikasi yang sama. Hasil serta preview tersedia di `docs/previews/`. Pembukaan aplikasi dari Finder, menu bar fisik, posisi terhadap notch, perpindahan Spaces, suara, dan fullscreen masih memerlukan pemeriksaan di sesi desktop macOS. Script melaporkan kegagalan jika AppKit keluar tanpa benar-benar menjalankan pemeriksaan.
+### Publishing a preview release
 
-- `Sources/SelaCore/Models/`: state dan aturan timer pada `ReminderEngine`, serta identitas aplikasi.
-- `Sources/SelaCore/ViewModels/`: aksi pengguna, validasi input, serta state pengaturan, island, dan menu bar.
-- `Sources/SelaCore/Services/`: kontrak penyimpanan preferensi dan implementasi UserDefaults.
-- `Sources/Sela/Views/`: layout dan render komponen AppKit.
-- `Sources/Sela/Controllers/`: penghubung event AppKit ke ViewModel dan pengelolaan window/menu.
-- `Sources/Sela/Application/`: entry point, lifecycle, serta koordinasi pembaruan tampilan.
-- `Sources/Sela/Services/`: timer sistem, wake, perubahan layar, dan suara.
-- `Sources/Sela/Diagnostics/`: smoke test UI dengan jam yang dikontrol.
-- `docs/previews/smoke-test.txt`: catatan pemeriksaan interaksi terakhir.
-- `docs/contrast.txt`: perhitungan kontras warna.
-- `docs/design-notes.md`: alasan keputusan desain.
+You can attach `dist/Sela.dmg` to a new [GitHub Release](https://github.com/syahraazly/posture-reminder/releases/new), or use **Actions → Publish DMG preview → Run workflow** to build and publish a preview release.
 
-Project memakai MVVM dengan `ReminderViewModel` sebagai sumber state UI bersama. `SelaCore` tidak mengimpor AppKit; Model dan ViewModel bisa diuji tanpa window. Lihat [panduan arsitektur](docs/architecture.md) untuk alur data dan lokasi perubahan fitur.
+For architecture, build details, and distribution notes, see the [`docs/`](docs/) directory.
 
-Tanpa konfigurasi signing, aplikasi ditandatangani ad hoc dan dapat dibagikan sebagai preview. Opsi `scripts/release.sh` menyiapkan Developer ID, notarization, stapling, dan pemeriksaan Gatekeeper; opsi ini memerlukan sertifikat serta kredensial Apple Developer di Keychain dan belum dijalankan di lingkungan ini.
+---
+
+**Made for small, mindful breaks throughout your day.**
