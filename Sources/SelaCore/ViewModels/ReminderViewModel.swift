@@ -88,10 +88,8 @@ public final class ReminderViewModel {
             return IslandViewState(
                 isExpanded: true, compactTitle: compactTitle,
                 heading: content.heading,
-                subtitle: engine.isPreviewing && engine.state != .reminding
-                    ? "Ini preview. Jadwal pengingatmu tetap berjalan."
-                    : content.detail,
-                primaryTitle: engine.state == .reminding ? content.acknowledgement : "Tutup preview",
+                subtitle: content.detail,
+                primaryTitle: engine.state == .reminding ? content.acknowledgement : "Tutup contoh",
                 secondaryTitle: engine.state == .reminding ? "Tunda 5 menit" : "Pengaturan"
             )
         }
@@ -106,10 +104,13 @@ public final class ReminderViewModel {
     }
 
     public var menuBar: MenuBarViewState {
-        MenuBarViewState(
-            status: engine.state == .running ? "\(content.name) dalam \(formattedRemaining)" : statusDescription,
-            primaryTitle: primaryTitle, toolTip: "Tegak · \(content.name) · \(statusDescription)",
-            symbolName: content.menuSymbol, accessibilityLabel: "Tegak · Pengingat \(content.name.lowercased())"
+        let description = engine.state == .running
+            ? "\(content.name) dalam \(formattedRemaining)"
+            : "\(content.name) · \(statusDescription)"
+        return MenuBarViewState(
+            status: description,
+            primaryTitle: primaryTitle, toolTip: "\(AppIdentity.name) · \(description)",
+            symbolName: content.menuSymbol, accessibilityLabel: "\(AppIdentity.name) · Pengingat \(content.name.lowercased())"
         )
     }
 

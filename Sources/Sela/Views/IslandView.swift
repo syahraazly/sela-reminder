@@ -1,9 +1,9 @@
 import AppKit
-import TegakCore
+import SelaCore
 
 @MainActor
 final class IslandView: IslandSurface {
-    let leftButton = ActionButton("Tegak", style: .bare)
+    let leftButton = ActionButton(AppIdentity.name, style: .bare)
     let rightButton = ActionButton("30:00", style: .bare)
     let primaryButton = ActionButton("Sudah tegak", style: .islandPrimary)
     let secondaryButton = ActionButton("Tunda 5 menit", style: .islandSecondary)
@@ -13,7 +13,7 @@ final class IslandView: IslandSurface {
     init() {
         super.init(frame: .zero)
         leftButton.font = .systemFont(ofSize: 11, weight: .semibold)
-        leftButton.setAccessibilityLabel("Buka atau tutup island Tegak")
+        leftButton.setAccessibilityLabel("Buka atau tutup island \(AppIdentity.name)")
         rightButton.font = .monospacedDigitSystemFont(ofSize: 11, weight: .medium)
         rightButton.setAccessibilityLabel("Buka status pengingat")
         for child in [leftButton, rightButton, headingLabel, subtitleLabel, primaryButton, secondaryButton] {

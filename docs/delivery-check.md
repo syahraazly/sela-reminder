@@ -1,8 +1,8 @@
-# Pemeriksaan Tegak
+# Pemeriksaan Sela
 
 Status: PASS untuk build, Model, ViewModel, kontrol AppKit, dan render di luar layar pada 10 November 2026. Tidak menyatakan bahwa penempatan pada layar fisik sudah diuji.
 
-Validasi setelah penambahan pilihan jenis: 8 tes engine, 16 tes ViewModel, dan 71 pemeriksaan UI lulus. Build universal menghasilkan aplikasi lokal dan DMG preview. Signature diperiksa dengan `codesign --verify --deep --strict`; Info.plist diperiksa dengan `plutil -lint`.
+Validasi terbaru: 8 tes engine, 17 tes ViewModel, dan 77 pemeriksaan UI lulus. Build universal menghasilkan Sela.app dan DMG preview. Signature diperiksa dengan `codesign --verify --deep --strict`; Info.plist diperiksa dengan `plutil -lint`.
 
 Bukti: [rekaman interaksi](previews/smoke-test.txt), [kontras](contrast.txt), [alasan desain](design-notes.md), [tema terang](previews/settings-light.png), [tema gelap](previews/settings-dark.png), [validasi input](previews/settings-invalid-input.png), [island kecil](previews/island-compact.png), [pengingat](previews/island-reminder.png).
 
@@ -23,7 +23,7 @@ Bukti: [rekaman interaksi](previews/smoke-test.txt), [kontras](contrast.txt), [a
 | R-32, keyboard | PASS: Tab antar jenis, dari pilihan jenis ke preset, antar preset, dan dari editor menit ke checkbox lalu aksi utama diuji; Enter memicu aksi utama; Escape menutup preview/pengaturan dan menunda pengingat. Focus ring native dipertahankan. |
 | R-33, perubahan source | PASS: implementasi ditulis di file Swift dengan patch source; tidak ada injeksi runtime atau script pengubah source. |
 | R-34, tema | PASS: kedua appearance dirender dan diperiksa; tombol serta permukaan custom menggambar ulang saat appearance berubah. |
-| R-35, eksekusi | PASS: build debug/release serta 71 pemeriksaan kontrol AppKit di luar layar selesai. Batas pemeriksaan desktop fisik tercatat di bawah. |
+| R-35, eksekusi | PASS: build debug/release serta 77 pemeriksaan kontrol AppKit di luar layar selesai. Batas pemeriksaan desktop fisik tercatat di bawah. |
 | R-36, klaim | PASS: tidak ada klaim keamanan, kepatuhan, performa, diagnosis, atau hasil kesehatan. |
 | R-37, arah | PASS: brief pengguna meminta utilitas island MacBook; Design Read serta ENERGY 1 / RHYTHM 1 / MOTION 2 dinyatakan sebelum UI dibuat. |
 | R-38, keaslian | PASS: timer dan state berasal dari engine; preview berlabel sebagai preview; tidak ada konten promosi atau data aktivitas buatan. |
@@ -85,3 +85,5 @@ Build universal dan paket DMG preview kemudian ditambahkan tanpa mengubah UI. Ha
 Pemeriksaan refactor MVVM, batas dependensi, dan kesamaan render tercatat dalam [mvvm-check.md](mvvm-check.md). Semua aturan visual di atas tetap memakai desain yang sama.
 
 Pilihan duduk/minum memakai palet dan pola interaksi yang sama. Layout pengaturan diringkas agar tetap 520 × 650; render terbaru kedua jenis dan tema tersedia di `previews/`. Pemeriksaan fitur tercatat di [reminder-kind-check.md](reminder-kind-check.md).
+
+Nama aplikasi kini Sela. Contoh pengingat memakai pesan aslinya dengan tombol Tutup contoh, tanpa kalimat tentang jadwal. Identitas penyimpanan dipertahankan; hasil pemeriksaan rename tersedia di [rename-check.md](rename-check.md).

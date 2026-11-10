@@ -1,5 +1,5 @@
 import AppKit
-import TegakCore
+import SelaCore
 
 @MainActor
 final class SmokeTestRunner {
@@ -10,10 +10,10 @@ final class SmokeTestRunner {
 
     init(isOffscreen: Bool) {
         self.isOffscreen = isOffscreen
-        guard let preferences = UserDefaults(suiteName: "local.dummy.tegak.smoke") else {
+        guard let preferences = UserDefaults(suiteName: "local.dummy.sela.smoke") else {
             preconditionFailure("Could not create isolated smoke-test preferences")
         }
-        preferences.removePersistentDomain(forName: "local.dummy.tegak.smoke")
+        preferences.removePersistentDomain(forName: "local.dummy.sela.smoke")
         self.preferences = preferences
         let clock = SmokeTestClock()
         self.clock = clock
@@ -63,6 +63,10 @@ final class SmokeTestRunner {
             settingsWindow.displayIfNeeded()
             check(viewModel.state == .idle, "First launch is idle")
             check(viewModel.intervalMinutes == 30, "Default interval is 30 minutes")
+            check(settingsWindow.title == "Sela", "Settings window uses the Sela name")
+            check(islandSurface.leftButton.title == "Sela", "Island uses the Sela name")
+            check(NSApp.mainMenu?.items.first?.submenu?.items.contains(where: { $0.title == "Keluar dari Sela" }) == true,
+                  "Application menu uses the Sela name")
             try snapshot(settingsSurface, to: output.appendingPathComponent("settings-idle.png"))
             for button in presetButtons {
                 button.performClick(nil)
@@ -88,6 +92,8 @@ final class SmokeTestRunner {
             let deadline = viewModel.nextReminderDate
             previewButton.performClick(nil)
             check(viewModel.isPreviewing, "Preview opens reminder")
+            check(viewModel.island.subtitle == "Rilekskan bahu dan sesuaikan posisi dudukmu.",
+                  "Posture preview shows the actual reminder message")
             check(viewModel.nextReminderDate == deadline, "Preview preserves scheduled deadline")
             check(panel.frame.height > 100, "Island expands for preview")
             panel.displayIfNeeded()
@@ -177,7 +183,7 @@ final class SmokeTestRunner {
         print(result)
         do { try result.write(to: output.appendingPathComponent("smoke-test.txt"), atomically: true, encoding: .utf8) }
         catch { failed = true; print("FAIL: Could not write smoke-test report: \(error)") }
-        preferences.removePersistentDomain(forName: "local.dummy.tegak.smoke")
+        preferences.removePersistentDomain(forName: "local.dummy.sela.smoke")
         fflush(nil)
         exit(failed ? 1 : 0)
     }
@@ -187,7 +193,7 @@ final class SmokeTestRunner {
         view.displayIfNeeded()
         guard let bitmap = view.bitmapImageRepForCachingDisplay(in: view.bounds),
               let data = render(view, into: bitmap) else {
-            throw NSError(domain: "Tegak.Smoke", code: 1,
+            throw NSError(domain: "Sela.Smoke", code: 1,
                           userInfo: [NSLocalizedDescriptionKey: "Could not render view as PNG"])
         }
         try data.write(to: url)
@@ -251,6 +257,8 @@ final class SmokeTestRunner {
         settings.window.appearance = nil
         settings.contentView.previewButton.performClick(nil)
         check(viewModel.isPreviewing && viewModel.island.heading == "Yuk, minum air putih.", "Water preview uses selected message")
+        check(viewModel.island.subtitle == "Ambil jeda sebentar untuk minum air putih.", "Water preview shows the actual reminder message")
+        check(island.contentView.primaryButton.title == "Tutup contoh", "Preview closes with a clear Indonesian label")
         try snapshot(island.contentView, to: output.appendingPathComponent("island-water-preview.png"))
         island.contentView.primaryButton.performClick(nil)
         check(viewModel.nextReminderDate == deadline, "Closing water preview preserves deadline")

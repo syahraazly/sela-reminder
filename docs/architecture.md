@@ -1,4 +1,4 @@
-# Arsitektur MVVM Tegak
+# Arsitektur MVVM Sela
 
 `ReminderEngine` menjalankan aturan timer. `ReminderViewModel` menerima aksi pengguna dan mengubah hasil Model menjadi state untuk UI. View merender state tersebut; controller AppKit meneruskan klik, input, dan event keyboard ke ViewModel.
 
@@ -6,8 +6,9 @@
 
 ```text
 Sources/
-├── TegakCore/
+├── SelaCore/
 │   ├── Models/
+│   │   ├── AppIdentity.swift
 │   │   ├── ReminderEngine.swift
 │   │   └── ReminderKind.swift
 │   ├── ViewModels/
@@ -16,7 +17,7 @@ Sources/
 │   │   └── ReminderViewState.swift
 │   └── Services/
 │       └── ReminderPreferencesStore.swift
-└── Tegak/
+└── Sela/
     ├── Application/
     │   ├── App.swift
     │   ├── AppDelegate.swift
@@ -69,13 +70,13 @@ Satu instance ViewModel dipakai pengaturan, island, dan menu bar agar ketiganya 
 
 | Perubahan | File utama |
 | --- | --- |
-| Aturan deadline, jeda, atau tunda | `TegakCore/Models/ReminderEngine.swift` |
-| Validasi input, teks state, atau aksi pengguna | `TegakCore/ViewModels/ReminderViewModel.swift` |
-| Bentuk state untuk tampilan | `TegakCore/ViewModels/ReminderViewState.swift` |
-| Penyimpanan interval dan suara | `TegakCore/Services/ReminderPreferencesStore.swift` |
-| Layout pengaturan atau island | `Tegak/Views/SettingsView.swift`, `IslandView.swift` |
-| Posisi notch dan pengelolaan window | `Tegak/Controllers/` |
-| Event sistem macOS | `Tegak/Services/MacOSReminderService.swift` |
+| Aturan deadline, jeda, atau tunda | `SelaCore/Models/ReminderEngine.swift` |
+| Validasi input, teks state, atau aksi pengguna | `SelaCore/ViewModels/ReminderViewModel.swift` |
+| Bentuk state untuk tampilan | `SelaCore/ViewModels/ReminderViewState.swift` |
+| Penyimpanan interval dan suara | `SelaCore/Services/ReminderPreferencesStore.swift` |
+| Layout pengaturan atau island | `Sela/Views/SettingsView.swift`, `IslandView.swift` |
+| Posisi notch dan pengelolaan window | `Sela/Controllers/` |
+| Event sistem macOS | `Sela/Services/MacOSReminderService.swift` |
 
 ## Pengujian
 

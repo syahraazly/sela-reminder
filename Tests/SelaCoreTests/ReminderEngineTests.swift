@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import TegakCore
+@testable import SelaCore
 
 @Suite @MainActor
 struct ReminderEngineTests {

@@ -1,11 +1,11 @@
 import AppKit
 
 @main
-enum TegakApplication {
+enum SelaApplication {
     @MainActor
     static func main() {
         if CommandLine.arguments.contains("--smoke-test") {
-            print("Tegak: starting UI smoke test")
+            print("Sela: starting UI smoke test")
             fflush(nil)
         }
         let application = NSApplication.shared

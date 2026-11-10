@@ -1,5 +1,5 @@
 import AppKit
-import TegakCore
+import SelaCore
 
 @MainActor
 final class AppCoordinator {

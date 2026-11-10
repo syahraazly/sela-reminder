@@ -1,5 +1,5 @@
 import AppKit
-import TegakCore
+import SelaCore
 
 @MainActor
 final class SettingsWindowController: NSObject, NSTextFieldDelegate {
@@ -15,7 +15,7 @@ final class SettingsWindowController: NSObject, NSTextFieldDelegate {
         window = SettingsWindow(contentRect: NSRect(x: 0, y: 0, width: 520, height: 650),
             styleMask: [.titled, .closable, .miniaturizable], backing: .buffered, defer: false)
         super.init()
-        window.title = "Tegak"
+        window.title = AppIdentity.name
         window.titlebarAppearsTransparent = true
         window.backgroundColor = Palette.background
         window.isReleasedWhenClosed = false

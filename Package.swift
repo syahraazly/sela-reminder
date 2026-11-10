@@ -2,12 +2,12 @@
 import PackageDescription
 
 let package = Package(
-    name: "Tegak",
+    name: "Sela",
     platforms: [.macOS(.v14)],
-    products: [.executable(name: "Tegak", targets: ["Tegak"])],
+    products: [.executable(name: "Sela", targets: ["Sela"])],
     targets: [
-        .target(name: "TegakCore"),
-        .executableTarget(name: "Tegak", dependencies: ["TegakCore"]),
-        .testTarget(name: "TegakCoreTests", dependencies: ["TegakCore"])
+        .target(name: "SelaCore"),
+        .executableTarget(name: "Sela", dependencies: ["SelaCore"]),
+        .testTarget(name: "SelaCoreTests", dependencies: ["SelaCore"])
     ]
 )

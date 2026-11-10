@@ -1,4 +1,4 @@
-# Tegak
+# Sela
 
 Dummy project aplikasi macOS untuk pengingat **duduk tegak** atau **minum air putih** berbasis waktu. Island kecil berada di tengah atas layar, menyatu dengan area notch jika tersedia. Saat timer habis, island terbuka dengan pengingat yang dipilih dan tombol tindakan.
 
@@ -6,27 +6,27 @@ Dummy project aplikasi macOS untuk pengingat **duduk tegak** atau **minum air pu
 
 Memerlukan **macOS 14 atau lebih baru**. Pengguna tidak perlu clone repository, memasang Xcode, atau menjalankan Terminal.
 
-1. Download file **.dmg** Tegak yang dibagikan pengembang.
-2. Buka DMG, lalu drag **Tegak.app** ke shortcut **Applications**.
-3. Buka **Tegak** dari folder Applications.
+1. Download file **.dmg** Sela yang dibagikan pengembang.
+2. Buka DMG, lalu drag **Sela.app** ke shortcut **Applications**.
+3. Buka **Sela** dari folder Applications.
 4. Pilih **Duduk tegak** atau **Minum air putih**, atur interval, lalu klik **Mulai pengingat**.
 
-Pengaturan dan pilihan keluar tersedia lewat ikon Tegak di menu bar. Menutup jendela pengaturan tetap membiarkan timer berjalan.
+Pengaturan dan pilihan keluar tersedia lewat ikon Sela di menu bar. Menutup jendela pengaturan tetap membiarkan timer berjalan.
 
-**Untuk membagikan versi sekarang:** kirim file `dist/Tegak-0.1.0-universal-preview.dmg`. Paket universal ini berisi build Apple Silicon dan Intel, tetapi masih preview dan belum dinotarisasi Apple sehingga dapat ditahan Gatekeeper di Mac lain. Untuk rilis publik, ikuti [panduan distribusi](docs/distribution.md).
+**Untuk membagikan versi sekarang:** kirim file `dist/Sela-0.1.0-universal-preview.dmg`. Paket universal ini berisi build Apple Silicon dan Intel, tetapi masih preview dan belum dinotarisasi Apple sehingga dapat ditahan Gatekeeper di Mac lain. Untuk rilis publik, ikuti [panduan distribusi](docs/distribution.md).
 
 ## Jalankan dari source
 
-Buka **Jalankan Tegak.command** dengan klik dua kali. Script membangun aplikasi lalu membuka `dist/Tegak.app`. Build pertama memerlukan Xcode atau Command Line Tools dengan Swift 6. Aplikasi memerlukan macOS 14 atau lebih baru.
+Buka **Jalankan Sela.command** dengan klik dua kali. Script membangun aplikasi lalu membuka `dist/Sela.app`. Build pertama memerlukan Xcode atau Command Line Tools dengan Swift 6. Aplikasi memerlukan macOS 14 atau lebih baru.
 
 Bisa juga melalui Terminal di folder project:
 
 ```sh
 zsh scripts/build.sh
-open dist/Tegak.app
+open dist/Sela.app
 ```
 
-Setelah dibangun, buka `dist/Tegak.app` langsung untuk penggunaan berikutnya.
+Setelah dibangun, buka `dist/Sela.app` langsung untuk penggunaan berikutnya. Jika versi lama bernama Tegak masih berjalan, pilih **Keluar dari Tegak** terlebih dahulu. Identitas penyimpanan aplikasi dipertahankan agar pilihan jenis, interval, dan suara tetap terbaca.
 
 ## Buat paket DMG
 
@@ -43,9 +43,9 @@ Script membuat aplikasi universal, image DMG terkompresi berisi aplikasi, shortc
 - Pada **Ingatkan untuk**, pilih **Duduk tegak** atau **Minum air putih**. Satu jenis aktif pada satu waktu; pilihan tersimpan otomatis. Mengganti jenis tidak mengulang sisa waktu timer.
 - Pilih 15, 30, 45, atau 60 menit; atau isi angka bulat 1–180 menit, lalu tekan Enter. Interval tersimpan otomatis. Mengubah interval mengulang hitungan timer.
 - Klik **Mulai pengingat**. **Jeda pengingat** dan **Lanjutkan pengingat** mempertahankan sisa waktu.
-- **Coba pengingat** membuka preview tanpa mengubah jadwal. Tutup dengan **Tutup preview** atau Escape.
+- **Coba pengingat** menampilkan contoh pesan sesuai jenis yang dipilih, tanpa mengubah timer. Tutup dengan **Tutup contoh** atau Escape.
 - Saat pengingat asli muncul, **Sudah tegak** atau **Sudah minum** memulai interval berikutnya, sesuai jenis yang dipilih. **Tunda 5 menit** atau Escape menunda lima menit.
-- Klik sisi kiri atau kanan island untuk membuka kontrol. Menu bar juga menyediakan **Buka island**, **Pengaturan**, dan **Keluar dari Tegak**.
+- Klik sisi kiri atau kanan island untuk membuka kontrol. Menu bar juga menyediakan **Buka island**, **Pengaturan**, dan **Keluar dari Sela**.
 - Menutup jendela pengaturan tetap membiarkan aplikasi berjalan. Keluar lewat menu bar atau Command-Q.
 - Suara pengingat bersifat opsional dan awalnya mati. Jenis pengingat, interval, dan pilihan suara dipertahankan saat aplikasi dibuka kembali; timer dimulai manual.
 
@@ -69,18 +69,18 @@ zsh scripts/test.sh --ui
 
 Tanpa akses layar, smoke test menggunakan window AppKit di luar layar dengan geometri layar virtual 1512 × 982. Kontrol dan renderer tetap berasal dari kode aplikasi yang sama. Hasil serta preview tersedia di `docs/previews/`. Pembukaan aplikasi dari Finder, menu bar fisik, posisi terhadap notch, perpindahan Spaces, suara, dan fullscreen masih memerlukan pemeriksaan di sesi desktop macOS. Script melaporkan kegagalan jika AppKit keluar tanpa benar-benar menjalankan pemeriksaan.
 
-- `Sources/TegakCore/Models/`: state dan aturan timer pada `ReminderEngine`.
-- `Sources/TegakCore/ViewModels/`: aksi pengguna, validasi input, serta state pengaturan, island, dan menu bar.
-- `Sources/TegakCore/Services/`: kontrak penyimpanan preferensi dan implementasi UserDefaults.
-- `Sources/Tegak/Views/`: layout dan render komponen AppKit.
-- `Sources/Tegak/Controllers/`: penghubung event AppKit ke ViewModel dan pengelolaan window/menu.
-- `Sources/Tegak/Application/`: entry point, lifecycle, serta koordinasi pembaruan tampilan.
-- `Sources/Tegak/Services/`: timer sistem, wake, perubahan layar, dan suara.
-- `Sources/Tegak/Diagnostics/`: smoke test UI dengan jam yang dikontrol.
+- `Sources/SelaCore/Models/`: state dan aturan timer pada `ReminderEngine`, serta identitas aplikasi.
+- `Sources/SelaCore/ViewModels/`: aksi pengguna, validasi input, serta state pengaturan, island, dan menu bar.
+- `Sources/SelaCore/Services/`: kontrak penyimpanan preferensi dan implementasi UserDefaults.
+- `Sources/Sela/Views/`: layout dan render komponen AppKit.
+- `Sources/Sela/Controllers/`: penghubung event AppKit ke ViewModel dan pengelolaan window/menu.
+- `Sources/Sela/Application/`: entry point, lifecycle, serta koordinasi pembaruan tampilan.
+- `Sources/Sela/Services/`: timer sistem, wake, perubahan layar, dan suara.
+- `Sources/Sela/Diagnostics/`: smoke test UI dengan jam yang dikontrol.
 - `docs/previews/smoke-test.txt`: catatan pemeriksaan interaksi terakhir.
 - `docs/contrast.txt`: perhitungan kontras warna.
 - `docs/design-notes.md`: alasan keputusan desain.
 
-Project memakai MVVM dengan `ReminderViewModel` sebagai sumber state UI bersama. `TegakCore` tidak mengimpor AppKit; Model dan ViewModel bisa diuji tanpa window. Lihat [panduan arsitektur](docs/architecture.md) untuk alur data dan lokasi perubahan fitur.
+Project memakai MVVM dengan `ReminderViewModel` sebagai sumber state UI bersama. `SelaCore` tidak mengimpor AppKit; Model dan ViewModel bisa diuji tanpa window. Lihat [panduan arsitektur](docs/architecture.md) untuk alur data dan lokasi perubahan fitur.
 
 Tanpa konfigurasi signing, aplikasi ditandatangani ad hoc untuk penggunaan lokal/preview. `scripts/release.sh` menyiapkan alur Developer ID, notarization, stapling, dan pemeriksaan Gatekeeper; alur ini memerlukan sertifikat serta kredensial Apple Developer di Keychain dan belum dijalankan di lingkungan ini.

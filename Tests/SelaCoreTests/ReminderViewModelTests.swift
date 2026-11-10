@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import TegakCore
+@testable import SelaCore
 
 @Suite @MainActor
 struct ReminderViewModelTests {
@@ -85,7 +85,7 @@ struct ReminderViewModelTests {
         viewModel.closeIsland()
         #expect(!viewModel.island.isExpanded)
         viewModel.preview()
-        #expect(viewModel.island.primaryTitle == "Tutup preview")
+        #expect(viewModel.island.primaryTitle == "Tutup contoh")
         viewModel.performIslandPrimaryAction()
         #expect(!viewModel.isPreviewing)
         #expect(viewModel.state == .running)
@@ -200,7 +200,7 @@ struct ReminderViewModelTests {
         viewModel.preview()
         #expect(viewModel.island.heading == "Yuk, minum air putih.")
         #expect(viewModel.island.compactTitle == "Minum")
-        #expect(viewModel.island.primaryTitle == "Tutup preview")
+        #expect(viewModel.island.primaryTitle == "Tutup contoh")
         viewModel.performIslandPrimaryAction()
         #expect(viewModel.nextReminderDate == deadline)
         #expect(viewModel.state == .running)
@@ -242,7 +242,7 @@ struct ReminderViewModelTests {
     }
 
     @Test func userDefaultsRestoresKindAndHandlesLegacyOrUnknownValues() throws {
-        let suite = "local.dummy.tegak.preferences-test.\(UUID().uuidString)"
+        let suite = "local.dummy.sela.preferences-test.\(UUID().uuidString)"
         let defaults = try #require(UserDefaults(suiteName: suite))
         defer { defaults.removePersistentDomain(forName: suite) }
         defaults.set(45, forKey: "intervalMinutes")
@@ -256,6 +256,28 @@ struct ReminderViewModelTests {
         #expect(restored.soundEnabled)
         defaults.set("unknown-kind", forKey: "reminderKind")
         #expect(restored.reminderKind == .posture)
+    }
+
+    @Test func previewUsesReminderContentWhenTimerIsIdleOrPaused() {
+        for kind in ReminderKind.allCases {
+            let viewModel = ReminderViewModel(preferences: MemoryReminderPreferences(reminderKind: kind))
+            let detail = kind == .posture
+                ? "Rilekskan bahu dan sesuaikan posisi dudukmu."
+                : "Ambil jeda sebentar untuk minum air putih."
+            viewModel.preview()
+            #expect(viewModel.state == .idle)
+            #expect(viewModel.island.subtitle == detail)
+            #expect(viewModel.island.primaryTitle == "Tutup contoh")
+            viewModel.closeIsland()
+            viewModel.toggleTimer()
+            viewModel.toggleTimer()
+            let remaining = viewModel.remaining
+            viewModel.preview()
+            #expect(viewModel.state == .paused)
+            #expect(viewModel.island.subtitle == detail)
+            viewModel.closeIsland()
+            #expect(viewModel.remaining == remaining)
+        }
     }
 }
 

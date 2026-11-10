@@ -1,6 +1,9 @@
 INFO: Offscreen AppKit run. Physical display, menu bar, Spaces, and fullscreen placement require an interactive desktop check.
 PASS: First launch is idle
 PASS: Default interval is 30 minutes
+PASS: Settings window uses the Sela name
+PASS: Island uses the Sela name
+PASS: Application menu uses the Sela name
 PASS: Preset 15 updates interval
 PASS: Preset 15 persists
 PASS: Preset 30 updates interval
@@ -20,6 +23,7 @@ PASS: Custom interval applies
 PASS: Custom interval persists
 PASS: Start button starts timer
 PASS: Preview opens reminder
+PASS: Posture preview shows the actual reminder message
 PASS: Preview preserves scheduled deadline
 PASS: Island expands for preview
 PASS: Preview settings button requests settings
@@ -63,6 +67,8 @@ PASS: Changing reminder kind preserves timer deadline
 PASS: Water reminder selects a relevant menu bar symbol
 PASS: Water selector shows selected state
 PASS: Water preview uses selected message
+PASS: Water preview shows the actual reminder message
+PASS: Preview closes with a clear Indonesian label
 PASS: Closing water preview preserves deadline
 PASS: Elapsed timer opens real water reminder
 PASS: Water reminder offers matching acknowledgement

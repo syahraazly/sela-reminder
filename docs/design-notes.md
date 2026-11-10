@@ -1,6 +1,8 @@
-# Keputusan desain Tegak
+# Keputusan desain Sela
 
 Mode antislop: selama pembuatan, sesuai pilihan pengguna.
+
+Nama Sela menggambarkan jeda kecil di sela kesibukan dan mencakup pengingat duduk maupun minum. `AppIdentity.name` menjadi sumber nama pada tampilan. Contoh pengingat menampilkan isi pesan yang sama dengan pengingat asli, dengan tombol Tutup contoh; tidak menyatakan timer sedang berjalan ketika belum dimulai atau dijeda.
 
 Design Read: utilitas native macOS untuk pengguna MacBook yang menginginkan pengingat duduk atau minum di area island. Bahasa visual mengikuti kebutuhan notch dan kontrol macOS. ENERGY 1 / RHYTHM 1 / MOTION 2.
 

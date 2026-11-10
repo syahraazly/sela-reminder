@@ -1,5 +1,5 @@
 import AppKit
-import TegakCore
+import SelaCore
 
 @MainActor
 final class MenuBarController: NSObject {
@@ -7,7 +7,7 @@ final class MenuBarController: NSObject {
     var onOpenIsland: (() -> Void)?
 
     private let viewModel: ReminderViewModel
-    private let statusLabel = NSMenuItem(title: "Tegak · Belum dimulai", action: nil, keyEquivalent: "")
+    private let statusLabel = NSMenuItem(title: "\(AppIdentity.name) · Belum dimulai", action: nil, keyEquivalent: "")
     private var toggleItem: NSMenuItem!
     private var statusItem: NSStatusItem?
     private var symbolName: String?
@@ -25,7 +25,7 @@ final class MenuBarController: NSObject {
         menu.addItem(item("Buka island", #selector(openIsland(_:)), "i"))
         menu.addItem(.separator())
         menu.addItem(item("Pengaturan…", #selector(openSettings(_:)), ","))
-        menu.addItem(item("Keluar dari Tegak", #selector(quit(_:)), "q"))
+        menu.addItem(item("Keluar dari \(AppIdentity.name)", #selector(quit(_:)), "q"))
         statusItem?.menu = menu
         createMainMenu()
     }
@@ -56,7 +56,7 @@ final class MenuBarController: NSObject {
         let commands = NSMenu()
         commands.addItem(item("Pengaturan…", #selector(openSettings(_:)), ","))
         commands.addItem(item("Buka island", #selector(openIsland(_:)), "i"))
-        commands.addItem(item("Keluar dari Tegak", #selector(quit(_:)), "q"))
+        commands.addItem(item("Keluar dari \(AppIdentity.name)", #selector(quit(_:)), "q"))
         appRoot.submenu = commands
         mainMenu.addItem(appRoot)
         let editRoot = NSMenuItem(title: "Edit", action: nil, keyEquivalent: "")

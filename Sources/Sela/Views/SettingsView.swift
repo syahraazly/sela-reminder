@@ -1,5 +1,5 @@
 import AppKit
-import TegakCore
+import SelaCore
 
 @MainActor
 final class SettingsView: SurfaceView {
@@ -51,7 +51,7 @@ final class SettingsView: SurfaceView {
     }
 
     private func buildHeader() {
-        place(label("Tegak", size: 30, weight: .semibold), in: self, 32, 22, 300, 40)
+        place(label(AppIdentity.name, size: 30, weight: .semibold), in: self, 32, 22, 300, 40)
         place(label("Pengingat harian, di sela kesibukanmu.", color: Palette.secondary),
               in: self, 32, 70, 456, 24)
     }

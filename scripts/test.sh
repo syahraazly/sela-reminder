@@ -9,7 +9,7 @@ if [[ "${1:-}" != "--ui" ]]; then
 fi
 swift build --disable-sandbox --cache-path "$PWD/.build/cache"
 binary_path="$(swift build --disable-sandbox --cache-path "$PWD/.build/cache" --show-bin-path)"
-python3 - "$binary_path/Tegak" <<'PY'
+python3 - "$binary_path/Sela" <<'PY'
 from pathlib import Path
 import subprocess
 import sys

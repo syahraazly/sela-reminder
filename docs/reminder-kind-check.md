@@ -1,5 +1,7 @@
 # Pemeriksaan pilihan jenis pengingat
 
+Catatan ini merekam penambahan pilihan jenis sebelum rename menjadi Sela. Pemeriksaan terbaru untuk nama, teks contoh, dan paket ada di [rename-check.md](rename-check.md).
+
 Satu jenis pengingat aktif pada satu waktu: Duduk tegak atau Minum air putih. Interval dan sisa waktu dipertahankan saat jenis diganti. Preferensi lama tanpa jenis memakai Duduk tegak.
 
 - PASS: 24 tes unit lulus, termasuk pemulihan pilihan tersimpan, fallback nilai lama/tidak dikenal, pergantian jenis saat aktif/jeda, preview minum, konfirmasi pengingat minum, serta pencegahan suara berulang saat jenis diganti.
