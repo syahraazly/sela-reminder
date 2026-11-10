@@ -31,7 +31,7 @@ Built with **Swift** and **AppKit**.
 
 ### Download Sela
 
-1. Go to the [Releases](https://github.com/syahraazly/posture-reminder/releases) page.
+1. Go to the [Releases](https://github.com/syahraazly/sela-reminder/releases) page.
 2. Download the latest `Sela-*-preview.dmg` file.
 3. Double-click the downloaded DMG to open it.
 4. Drag **Sela.app** into the **Applications** folder.
@@ -120,8 +120,8 @@ Use the Sela icon in your macOS menu bar to reopen settings or quit the applicat
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/syahraazly/posture-reminder.git
-cd posture-reminder
+git clone https://github.com/syahraazly/sela-reminder.git
+cd sela-reminder
 ```
 
 ### Build the Application
