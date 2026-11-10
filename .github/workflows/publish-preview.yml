@@ -1,0 +1,79 @@
+name: Publish DMG preview
+
+"on":
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Versi preview, misalnya 0.1.0
+        required: true
+        default: "0.1.0"
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: preview-release-${{ inputs.version }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Validate version and repository
+        id: release
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$RELEASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::Versi harus berupa tiga angka, misalnya 0.1.0."
+            exit 1
+          fi
+          if [[ "$(gh api "repos/$GH_REPO" --jq '.private')" != "false" ]]; then
+            echo "::error::Repository harus public agar pengguna lain bisa download tanpa akses khusus."
+            exit 1
+          fi
+          tag="v$RELEASE_VERSION-preview"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "::error::Release $tag sudah ada. Gunakan versi baru atau kelola release tersebut secara manual."
+            exit 1
+          fi
+          printf 'version=%s\ntag=%s\n' "$RELEASE_VERSION" "$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Run unit tests
+        run: zsh scripts/test.sh
+
+      - name: Build universal DMG
+        env:
+          SELA_VERSION: ${{ steps.release.outputs.version }}
+        run: zsh build.sh
+
+      - name: Verify download checksum
+        working-directory: dist
+        run: shasum -a 256 -c Sela.dmg.sha256
+
+      - name: Upload assets and publish preview
+        shell: bash
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        run: |
+          set -euo pipefail
+          dmg="dist/Sela.dmg"
+          gh release create "$RELEASE_TAG" "$dmg" "$dmg.sha256" \
+            --target "$GITHUB_SHA" --title "Sela $RELEASE_VERSION (Preview)" \
+            --draft --prerelease --notes-file docs/preview-release-notes.md
+          gh release edit "$RELEASE_TAG" --draft=false --prerelease
+          release_url="$(gh release view "$RELEASE_TAG" --json url --jq '.url')"
+          printf '### Unduhan Sela\n\n[Download DMG dari GitHub Releases](%s)\n' "$release_url" >> "$GITHUB_STEP_SUMMARY"

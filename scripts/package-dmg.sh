@@ -16,7 +16,7 @@ done
 
 if $release_mode; then
     if [[ -z "$signing_identity" ]]; then
-        print -u2 "DMG publik memerlukan SELA_SIGNING_IDENTITY. Gunakan scripts/release.sh untuk notarization."
+        print -u2 "DMG bernotarisasi memerlukan SELA_SIGNING_IDENTITY. Gunakan scripts/release.sh untuk notarization."
         exit 1
     fi
 fi
@@ -67,8 +67,12 @@ if ! $release_mode; then
     cat >> "$payload/Baca dulu.txt" <<'PREVIEW'
 
 VERSI PREVIEW
-Paket ini belum dinotarisasi oleh Apple dan dapat ditahan Gatekeeper.
-Gunakan versi yang sudah ditandatangani dan dinotarisasi untuk rilis publik.
+Paket ini ditandatangani ad hoc dan belum dinotarisasi oleh Apple.
+Paket boleh dibagikan sebagai preview; macOS dapat menahannya saat pertama dibuka.
+Jika pengembang belum diverifikasi dan sumber dipercaya: coba buka Sela,
+lalu pilih System Settings > Privacy & Security > Open Anyway.
+Panduan Apple:
+https://support.apple.com/en-us/102445
 PREVIEW
 fi
 
@@ -85,4 +89,4 @@ mv -f "$staging_path/Sela.dmg" "$output_path/$image_name"
     shasum -a 256 "$image_name" > "$image_name.sha256"
 )
 print "DMG siap: $output_path/$image_name"
-if ! $release_mode; then print "Status: preview, belum dinotarisasi untuk distribusi publik."; fi
+if ! $release_mode; then print "Status: preview, belum dinotarisasi Apple."; fi

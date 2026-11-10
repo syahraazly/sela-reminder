@@ -1,6 +1,6 @@
 # Pemeriksaan paket distribusi
 
-Paket saat ini: `dist/Sela-0.1.0-universal-preview.dmg` dan file `.sha256` di sampingnya. Statusnya preview; belum ditandatangani dengan Developer ID atau dinotarisasi. Belum diunggah sebagai unduhan publik.
+Paket untuk dibagikan: `dist/Sela.dmg` dan file `.sha256` di sampingnya. Salinan berversi tetap tersedia. Statusnya preview dengan tanda tangan ad hoc; belum memakai Developer ID atau notarization, dan belum diunggah sebagai unduhan publik.
 
 - PASS: `scripts/build.sh --universal` membangun arsitektur arm64 dan x86_64; diverifikasi dengan `lipo -archs`.
 - PASS: `vtool -show-build` menyatakan minimum macOS 14.0 pada kedua arsitektur.

@@ -5,7 +5,7 @@ export SELA_SIGNING_IDENTITY="${SELA_SIGNING_IDENTITY:-${TEGAK_SIGNING_IDENTITY:
 export SELA_NOTARY_PROFILE="${SELA_NOTARY_PROFILE:-${TEGAK_NOTARY_PROFILE:-}}"
 
 if [[ -z "$SELA_SIGNING_IDENTITY" || "$SELA_SIGNING_IDENTITY" != "Developer ID Application: "* ]]; then
-    print -u2 "Rilis publik memerlukan SELA_SIGNING_IDENTITY dari sertifikat Developer ID Application di Keychain."
+    print -u2 "Rilis bernotarisasi memerlukan SELA_SIGNING_IDENTITY dari sertifikat Developer ID Application di Keychain."
     exit 1
 fi
 if [[ -z "$SELA_NOTARY_PROFILE" ]]; then

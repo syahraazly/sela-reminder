@@ -1,5 +1,5 @@
 #!/bin/zsh
 set -euo pipefail
 cd "$(dirname "$0")"
-zsh scripts/build.sh
+zsh build.sh --no-dmg
 open dist/Sela.app
